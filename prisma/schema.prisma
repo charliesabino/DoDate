@@ -7,21 +7,13 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql" // NOTE: sqlite does not work with NextAuth.js
+    provider = "mysql"
     url      = env("DATABASE_URL")
     referentialIntegrity = "prisma"
 }
 
 model Example {
     id String @id @default(cuid())
-}
-
-model DoDate {
-  id              Int       @default(autoincrement()) @id
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  name            String    @db.VarChar(255)
-  constellation   String    @db.VarChar(255)
 }
 
 // Necessary for Next auth
@@ -68,3 +60,11 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Todo {
+    id String @id @default(cuid())
+    name String
+    dueDate DateTime
+    isComplete Boolean
+    isOverdue Boolean
+  }
