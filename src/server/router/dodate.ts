@@ -2,20 +2,20 @@ import { createRouter } from "./context";
 import { prisma } from "../db/client";
 import { z } from "zod";
 
-export const todoRouter = createRouter()
-  .query("get-todos", {
+export const doDateRouter = createRouter()
+  .query("get-doDates", {
     async resolve() {
-      return prisma.todo.findMany({
+      return prisma.doDate.findMany({
         orderBy: {
           done: 'asc',
         },
       })
     },
-  }).mutation("update-todo", {
+  }).mutation("update-doDate", {
     input: z.object({id: z.string(), done: z.boolean()}),
     async resolve({ input }) {
       const { id, done } = input;
-      return await prisma.todo.update({
+      return await prisma.doDate.update({
         where: {
           id,
         },
@@ -24,11 +24,11 @@ export const todoRouter = createRouter()
         },
       });
     }
-  }).mutation("create-todo", {
+  }).mutation("create-doDate", {
     input: z.object({text: z.string()}),
     async resolve({ input }) {
       const { text } = input;
-      await prisma.todo.create({
+      await prisma.doDate.create({
         data: {
           text
         }

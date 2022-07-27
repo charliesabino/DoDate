@@ -1,10 +1,74 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
-import { Todo } from "@prisma/client";
+import { DoDate } from "@prisma/client";
+import { useEffect, useState } from "react";
+import classNames from "classnames";
+import { comment } from "postcss";
+
+
+const DoDate: React.FC<{
+  doDate: DoDate;
+}> = ({ doDate }) => {
+  const mutation = trpc.useMutation(["dodate.update-doDate"]);
+
+  const onChange = () => {
+    doDate.done = !doDate.done;
+    mutation.mutate({ ...doDate });
+  };
+
+  return (
+    <div
+      key={doDate.id}
+      className="flex gap-2 rounded bg-gray-700 p-4 md:w-1/2 w-full"
+    >
+      <input type="checkbox" checked={doDate.done} onChange={onChange}></input>
+      <span className={classNames({ "line-through": doDate.done })}>
+        {doDate.text}
+      </span>
+    </div>
+  );
+};
+
+// const CreateTodoForm: React.FC = () => {
+//   const utils = trpc.useContext();
+
+//   const mutation = trpc.useMutation(["doDate.create-todo"], {
+//     onSuccess() {
+//       utils.invalidateQueries(["todo.get-todos"]);
+//     },
+//   });
+//   const [text, setText] = useState("");
+
+//   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+//     setText(e.target.value);
+
+//   const onSubmit = (e: React.SyntheticEvent) => {
+//     e.preventDefault();
+
+//     mutation.mutate({ text });
+//     setText("");
+//   };
+
+//   return (
+//     <form className="flex md:w-1/2 w-full" onSubmit={onSubmit}>
+//       <input
+//         className="p-4 flex-1 rounded text-black focus:outline-0"
+//         type="text"
+//         placeholder="Enter a new todo..."
+//         onChange={onChange}
+//         value={text}
+//       />
+//       <button className="p-4 rounded bg-gray-600" type="submit">
+//         Submit
+//       </button>
+//     </form>
+//   );
+// };
 
 const Home: NextPage = () => {
-  const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
+
+  // const { data, isLoading } = trpc.useQuery(["doDate."]);
 
   return (
     <>
@@ -15,12 +79,26 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex flex-col items-center justify-center h-screen p-4">
-        <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
-          Create <span className="text-purple-300">T3</span> App
-        </h1>
-        <p className="text-2xl text-gray-700">This stack uses:</p>
-        <div className="pt-6 text-2xl text-blue-500 flex justify-center items-center w-full">
-          {hello.data ? <p>{hello.data.greeting}</p> : <p>Loading..</p>}
+        <div>
+          <h1 className='text-center font-bold text-2xl mt-4'>DoDates</h1>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+            }}
+            className='w-auto min-w-[25%] max-w-min mx-auto space-y-6 flex flex-col items-stretch'
+          >
+            <input
+              type='text'
+              placeholder='name'
+              className='border-2 rounded border-gray-600 p-1'
+            />
+            <button
+              type='submit'
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+            >
+              Add +
+            </button>
+          </form>
         </div>
       </main>
     </>
