@@ -51,7 +51,7 @@ const CreateDoDateForm: React.FC = () => {
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
   const [doDates, setDoDates] = useState<DoDate[]>([])
-  const { data: session } = useSession()
+  const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
 
   useEffect(() => {
     if (data) {
@@ -83,7 +83,14 @@ const Home: NextPage = () => {
         <div className='container mx-auto flex flex-col items-center justify-center h-screen p-4'>
           <CreateDoDateForm />
           {doDates.map((doDate) => (
-            <DoDateItem key={doDate.id} doDate={doDate} doDates={doDates} />
+            <DoDateItem
+              key={doDate.id}
+              doDate={doDate}
+              onDelete={() => {
+                deleteMutation.mutate({ ...doDate })
+                setDoDates(doDates.filter((d) => d.id !== doDate.id))
+              }}
+            />
           ))}
         </div>
       </main>
