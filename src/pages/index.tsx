@@ -3,31 +3,8 @@ import Head from 'next/head'
 import { trpc } from '../utils/trpc'
 import { DoDate } from '@prisma/client'
 import { useEffect, useState } from 'react'
-import classNames from 'classnames'
-import { comment } from 'postcss'
-
-const DoDateItem: React.FC<{
-  doDate: DoDate
-}> = ({ doDate }) => {
-  const completeMutation = trpc.useMutation(['dodate.update-doDate'])
-
-  const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
-
-  const onChange = () => {
-    doDate.done = !doDate.done
-    completeMutation.mutate({ ...doDate })
-  }
-
-  return (
-    <div key={doDate.id} className='flex gap-2 rounded p-4 md:w-1/2 w-full'>
-      <input type='checkbox' checked={doDate.done} onChange={onChange}></input>
-      <span className={classNames({ 'line-through': doDate.done })}>
-        {doDate.text}
-      </span>
-      <button onClick={() => deleteMutation.mutate({ id: doDate.id })}>X</button>
-    </div>
-  )
-}
+import { signOut, signIn, useSession } from 'next-auth/react'
+import DoDateItem from '../components/DoDateItem'
 
 const CreateDoDateForm: React.FC = () => {
   const utils = trpc.useContext()
@@ -74,6 +51,7 @@ const CreateDoDateForm: React.FC = () => {
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
   const [doDates, setDoDates] = useState<DoDate[]>([])
+  const { data: session } = useSession()
 
   useEffect(() => {
     if (data) {
@@ -83,6 +61,7 @@ const Home: NextPage = () => {
 
   if (isLoading) return null
 
+  // if (session) {
   return (
     <>
       <Head>
@@ -91,17 +70,39 @@ const Home: NextPage = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className='container mx-auto flex flex-col items-center justify-center h-screen p-4'>
-        <div>
-          <h1 className='text-center font-bold text-2xl mt-4'>DoDates</h1>
+      <main className=''>
+        <div className='w-full h-20 absolute top-0 flex justify-around items-center'>
+          <h1 className='text-3xl font-bold'>DoDate</h1>
+          <button
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+            onClick={() => signOut()}
+          >
+            Sign Out
+          </button>
+        </div>
+        <div className='container mx-auto flex flex-col items-center justify-center h-screen p-4'>
           <CreateDoDateForm />
           {doDates.map((doDate) => (
-            <DoDateItem key={doDate.id} doDate={doDate} />
+            <DoDateItem key={doDate.id} doDate={doDate} doDates={doDates} />
           ))}
         </div>
       </main>
     </>
   )
 }
+// return (
+//   <>
+//     <div className='flex flex-col items-center justify-center h-screen p-4'>
+//       {' '}
+//       <button
+//         classname='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+//         onclick={() => signin()}
+//       >
+//         sign in
+//       </button>
+//     </div>
+//   </>
+// )
+// }
 
 export default Home
