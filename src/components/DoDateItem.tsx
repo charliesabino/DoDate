@@ -15,7 +15,7 @@ const DoDateItem: React.FC<{
   return (
     <div
       key={doDate.id}
-      className='flex justify-between items-center gap-2 rounded p-4 w-1/2'
+      className='flex justify-between items-center gap-2 rounded p-4 w-1/2 border-b border-gray-300'
     >
       <ul>
         <input

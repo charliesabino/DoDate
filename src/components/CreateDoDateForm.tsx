@@ -2,6 +2,7 @@ import { trpc } from '../utils/trpc'
 import { useState } from 'react'
 import { DatePicker } from '@mantine/dates'
 import { TextInput, Button, Modal } from '@mantine/core'
+import { FiCalendar } from 'react-icons/fi'
 
 const CreateDoDateForm: React.FC = () => {
   const utils = trpc.useContext()
@@ -29,15 +30,16 @@ const CreateDoDateForm: React.FC = () => {
     <>
       <Modal opened={opened} onClose={() => setOpened(false)}>
         <form
-          className='w-full mx-auto space-y-3 flex flex-col items-center'
+          className='mx-auto space-y-3 flex flex-col items-center'
           onSubmit={onSubmit}
         >
+          <h1>Create a DoDate</h1>
           <TextInput
             label='Task name'
             value={text}
             onChange={onChange}
             required
-            className='w-3/4'
+            className='w-3/5'
           />
           <DatePicker
             inputFormat='MM/DD/YYYY'
@@ -45,8 +47,8 @@ const CreateDoDateForm: React.FC = () => {
             defaultValue={new Date()}
             label='Due date'
             required
-            className=''
-            dayClassName={}
+            className='w-3/5'
+            icon={<FiCalendar />}
           />
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
@@ -58,7 +60,7 @@ const CreateDoDateForm: React.FC = () => {
       </Modal>
       <button
         onClick={() => setOpened(true)}
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-6'
       >
         Add DoDate
       </button>

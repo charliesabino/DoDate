@@ -39,8 +39,7 @@ const Home: NextPage = () => {
             Sign Out
           </button>
         </div>
-        <div className='container mx-auto flex flex-col items-center justify-center h-screen p-4'>
-          <CreateDoDateForm />
+        <div className='container mx-auto flex flex-col items-center justify-top mt-16 h-screen p-4'>
           {doDates.map((doDate) => (
             <DoDateItem
               key={doDate.id}
@@ -51,6 +50,7 @@ const Home: NextPage = () => {
               }}
             />
           ))}
+          <CreateDoDateForm />
         </div>
       </main>
     </>
