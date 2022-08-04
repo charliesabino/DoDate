@@ -1,7 +1,7 @@
 import { trpc } from '../utils/trpc'
 import { useState, useRef } from 'react'
 import { DatePicker } from '@mantine/dates'
-import { TextInput, Button, Modal } from '@mantine/core'
+import { TextInput, Modal } from '@mantine/core'
 import { FiCalendar } from 'react-icons/fi'
 import dayjs from 'dayjs';
 
@@ -34,7 +34,7 @@ const CreateDoDateForm: React.FC = () => {
           className='mx-auto space-y-3 flex flex-col items-center'
           onSubmit={onSubmit}
         >
-          <h1>Create a DoDate</h1>
+          <h1 className='font-bold'>Create a DoDate</h1>
           <TextInput
             label='Task name'
             value={text}

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { signOut, signIn, useSession } from 'next-auth/react'
 import DoDateItem from '../components/DoDateItem'
 import CreateDoDateForm from '../components/CreateDoDateForm'
+import { FiCheckSquare } from "react-icons/fi";
 
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
@@ -31,7 +32,7 @@ const Home: NextPage = () => {
 
       <main className=''>
         <div className='w-full h-20 absolute top-0 flex justify-around items-center'>
-          <h1 className='text-3xl font-bold'>DoDate</h1>
+          <h1 className='text-3xl font-bold flex items-center'><FiCheckSquare className='m-2'/>DoDate</h1>
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
             onClick={() => signOut()}
