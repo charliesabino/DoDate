@@ -15,7 +15,7 @@ const CreateDoDateForm: React.FC = () => {
   })
   const [text, setText] = useState('')
   const [opened, setOpened] = useState(false)
-  const [date, setDate] = useState(new Date())
+  const [dueDate, setDueDate] = useState(new Date())
 
   const ref = useRef<HTMLInputElement>(null)
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -24,7 +24,7 @@ const CreateDoDateForm: React.FC = () => {
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
 
-    mutation.mutate({ text })
+    mutation.mutate({ text, dueDate })
     setText('')
     setOpened(false)
   }
@@ -46,10 +46,9 @@ const CreateDoDateForm: React.FC = () => {
           />
           <DatePicker
             inputFormat='MM/DD/YYYY'
-            labelFormat='MM/YYYY'
             defaultValue={new Date()}
-            value={date}
-            onChange={() => setDate}
+            value={dueDate}
+            onChange={setDueDate}
             label='Due date'
             required
             className='w-3/5'
