@@ -11,6 +11,7 @@ import { FiCheckSquare } from "react-icons/fi";
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
   const [doDates, setDoDates] = useState<DoDate[]>([])
+  const [date, setDate] = useState(Date())
   const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
 
   useEffect(() => {

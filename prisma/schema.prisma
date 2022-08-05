@@ -59,10 +59,11 @@ model VerificationToken {
 }
 
 model DoDate {
-  id      String  @id @default(cuid())
+  id      String   @id @default(cuid())
   text    String
-  done    Boolean @default(false)
-  overdue Boolean @default(false)
-  User    User?   @relation(fields: [userId], references: [id])
+  duedate DateTime @default(now())
+  done    Boolean  @default(false)
+  overdue Boolean  @default(false)
+  User    User?    @relation(fields: [userId], references: [id])
   userId  String?
 }

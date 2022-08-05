@@ -3,7 +3,7 @@ import { useState, useRef } from 'react'
 import { DatePicker } from '@mantine/dates'
 import { TextInput, Modal } from '@mantine/core'
 import { FiCalendar } from 'react-icons/fi'
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'
 
 const CreateDoDateForm: React.FC = () => {
   const utils = trpc.useContext()
@@ -15,6 +15,8 @@ const CreateDoDateForm: React.FC = () => {
   })
   const [text, setText] = useState('')
   const [opened, setOpened] = useState(false)
+  const [date, setDate] = useState(new Date())
+
   const ref = useRef<HTMLInputElement>(null)
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value)
@@ -36,7 +38,7 @@ const CreateDoDateForm: React.FC = () => {
         >
           <h1 className='font-bold'>Create a DoDate</h1>
           <TextInput
-            label='Task name'
+            label='Assignment name'
             value={text}
             onChange={onChange}
             required
@@ -46,6 +48,8 @@ const CreateDoDateForm: React.FC = () => {
             inputFormat='MM/DD/YYYY'
             labelFormat='MM/YYYY'
             defaultValue={new Date()}
+            value={date}
+            onChange={() => setDate}
             label='Due date'
             required
             className='w-3/5'
