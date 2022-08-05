@@ -6,13 +6,13 @@ import { useEffect, useState } from 'react'
 import { signOut, signIn, useSession } from 'next-auth/react'
 import DoDateItem from '../components/DoDateItem'
 import CreateDoDateForm from '../components/CreateDoDateForm'
-import { FiCheckSquare } from "react-icons/fi";
+import { FiCheckSquare } from 'react-icons/fi'
 
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
   const [doDates, setDoDates] = useState<DoDate[]>([])
-  const [date, setDate] = useState(Date())
   const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     if (data) {
@@ -22,55 +22,58 @@ const Home: NextPage = () => {
 
   if (isLoading) return null
 
-  // if (session) {
+  if (session) {
+    return (
+      <>
+        <Head>
+          <title>DoDate</title>
+          <meta name='description' content='Hold yourself accountable.' />
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
+
+        <main className=''>
+          <div className='w-full h-20 absolute top-0 flex justify-around items-center'>
+            <h1 className='text-3xl font-bold flex items-center'>
+              <FiCheckSquare className='m-2' />
+              DoDate
+            </h1>
+            <button
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+              onClick={() => signOut()}
+            >
+              Sign Out
+            </button>
+          </div>
+          <div className='container mx-auto flex flex-col items-center justify-top mt-16 h-screen p-4'>
+            {doDates.map((doDate) => (
+              <DoDateItem
+                key={doDate.id}
+                doDate={doDate}
+                onDelete={() => {
+                  deleteMutation.mutate({ ...doDate })
+                  setDoDates(doDates.filter((d) => d.id !== doDate.id))
+                }}
+              />
+            ))}
+            <CreateDoDateForm />
+          </div>
+        </main>
+      </>
+    )
+  }
   return (
     <>
-      <Head>
-        <title>DoDate</title>
-        <meta name='description' content='Hold yourself accountable.' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-
-      <main className=''>
-        <div className='w-full h-20 absolute top-0 flex justify-around items-center'>
-          <h1 className='text-3xl font-bold flex items-center'><FiCheckSquare className='m-2'/>DoDate</h1>
-          <button
-            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-            onClick={() => signOut()}
-          >
-            Sign Out
-          </button>
-        </div>
-        <div className='container mx-auto flex flex-col items-center justify-top mt-16 h-screen p-4'>
-          {doDates.map((doDate) => (
-            <DoDateItem
-              key={doDate.id}
-              doDate={doDate}
-              onDelete={() => {
-                deleteMutation.mutate({ ...doDate })
-                setDoDates(doDates.filter((d) => d.id !== doDate.id))
-              }}
-            />
-          ))}
-          <CreateDoDateForm />
-        </div>
-      </main>
+      <div className='flex flex-col items-center justify-center h-screen p-4'>
+        {' '}
+        <button
+          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+          onClick={() => signIn()}
+        >
+          Sign In
+        </button>
+      </div>
     </>
   )
 }
-// return (
-//   <>
-//     <div className='flex flex-col items-center justify-center h-screen p-4'>
-//       {' '}
-//       <button
-//         classname='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-//         onclick={() => signin()}
-//       >
-//         sign in
-//       </button>
-//     </div>
-//   </>
-// )
-// }
 
 export default Home
