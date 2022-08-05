@@ -27,7 +27,7 @@ export const doDateRouter = createRouter()
     },
   })
   .mutation('create-doDate', {
-    input: z.object({ text: z.string() }),
+    input: z.object({ text: z.string(), duedate: z.date() }),
     async resolve({ input }) {
       const { text } = input
       await prisma.doDate.create({
@@ -38,7 +38,7 @@ export const doDateRouter = createRouter()
     },
   })
   .mutation('delete-doDate', {
-    input: z.object({ id: z.string()}),
+    input: z.object({ id: z.string() }),
     async resolve({ input }) {
       const { id } = input
       return await prisma.doDate.delete({
