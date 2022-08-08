@@ -24,17 +24,24 @@ const DoDateItem: React.FC<{
           onChange={onChange}
         ></input>
         {doDate.done ? (
-          <span className='line-through text-xl px-4'>{doDate.text}</span>
+          <>
+            <span className='line-through text-xl px-4'>{doDate.text}</span>
+          </>
         ) : (
-          <span className='text-xl px-4'>{doDate.text}</span>
+          <>
+            <span className='text-xl px-4'>{doDate.text}</span>
+          </>
         )}
       </ul>
-      <button
-        onClick={onDelete}
-        className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded'
-      >
-        X
-      </button>
+      <ul>
+        <span className='px-4'>{doDate.dueDate.toLocaleDateString()}</span>
+        <button
+          onClick={onDelete}
+          className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded'
+        >
+          X
+        </button>
+      </ul>
     </div>
   )
 }
