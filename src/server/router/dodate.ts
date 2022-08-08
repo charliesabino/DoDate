@@ -33,6 +33,7 @@ export const doDateRouter = createRouter()
       await prisma.doDate.create({
         data: {
           text,
+          dueDate,
         },
       })
     },
