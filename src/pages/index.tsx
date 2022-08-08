@@ -7,6 +7,7 @@ import { signOut, signIn, useSession } from 'next-auth/react'
 import DoDateItem from '../components/DoDateItem'
 import CreateDoDateForm from '../components/CreateDoDateForm'
 import { FiCheckSquare } from 'react-icons/fi'
+import { TailSpin } from 'react-loader-spinner'
 
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
@@ -20,7 +21,22 @@ const Home: NextPage = () => {
     }
   }, [data])
 
-  if (isLoading) return null
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center h-screen w-screen'>
+        <TailSpin
+          height='80'
+          width='80'
+          color='black'
+          ariaLabel='tail-spin-loading'
+          radius='1'
+          wrapperStyle={{}}
+          wrapperClass=''
+          visible={true}
+        />{' '}
+      </div>
+    )
+  }
 
   if (session) {
     return (
@@ -55,7 +71,7 @@ const Home: NextPage = () => {
                 }}
               />
             ))}
-            <CreateDoDateForm />
+            <CreateDoDateForm userId={session.userId} />
           </div>
         </main>
       </>

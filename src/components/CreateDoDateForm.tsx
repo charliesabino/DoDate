@@ -5,7 +5,7 @@ import { TextInput, Modal } from '@mantine/core'
 import { FiCalendar } from 'react-icons/fi'
 import dayjs from 'dayjs'
 
-const CreateDoDateForm: React.FC = () => {
+const CreateDoDateForm: React.FC<{ userId: string }> = ({userId}) => {
   const utils = trpc.useContext()
 
   const mutation = trpc.useMutation(['dodate.create-doDate'], {
