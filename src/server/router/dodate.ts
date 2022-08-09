@@ -4,11 +4,9 @@ import { z } from 'zod'
 
 export const doDateRouter = createRouter()
   .query('get-doDates', {
-    async resolve() {
+    async resolve({ ctx }) {
       return prisma.doDate.findMany({
-        orderBy: {
-          done: 'asc',
-        },
+        where: { userId: ctx.session?.user?.id},
       })
     },
   })

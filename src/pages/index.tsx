@@ -10,10 +10,10 @@ import { FiCheckSquare } from 'react-icons/fi'
 import { TailSpin } from 'react-loader-spinner'
 
 const Home: NextPage = () => {
-  const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
   const [doDates, setDoDates] = useState<DoDate[]>([])
   const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
+  const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
 
   useEffect(() => {
     if (data) {
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
                 }}
               />
             ))}
-            <CreateDoDateForm userId={session.userId} />
+            <CreateDoDateForm />
           </div>
         </main>
       </>
