@@ -4,8 +4,9 @@ import { DatePicker } from '@mantine/dates'
 import { TextInput, Modal } from '@mantine/core'
 import { FiCalendar } from 'react-icons/fi'
 import dayjs from 'dayjs'
+import { useSession } from 'next-auth/react'
 
-const CreateDoDateForm: React.FC<{ userId: string }> = ({userId}) => {
+const CreateDoDateForm: React.FC = () => {
   const utils = trpc.useContext()
 
   const mutation = trpc.useMutation(['dodate.create-doDate'], {
@@ -17,6 +18,9 @@ const CreateDoDateForm: React.FC<{ userId: string }> = ({userId}) => {
   const [opened, setOpened] = useState(false)
   const [dueDate, setDueDate] = useState(new Date())
 
+  const { data: session } = useSession()
+  const userId = session?.user?.id as string
+
   const ref = useRef<HTMLInputElement>(null)
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value)
@@ -24,7 +28,7 @@ const CreateDoDateForm: React.FC<{ userId: string }> = ({userId}) => {
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
 
-    mutation.mutate({ text, dueDate })
+    mutation.mutate({ text, dueDate, userId })
     setText('')
     setOpened(false)
   }

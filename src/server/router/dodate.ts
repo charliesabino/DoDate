@@ -30,13 +30,15 @@ export const doDateRouter = createRouter()
     input: z.object({
       text: z.string(),
       dueDate: z.date(),
+      userId: z.string(),
     }),
     async resolve({ input }) {
-      const { text, dueDate } = input
+      const { text, dueDate, userId } = input
       await prisma.doDate.create({
         data: {
           text,
           dueDate,
+          userId,
         },
       })
     },
