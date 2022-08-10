@@ -53,12 +53,17 @@ const Home: NextPage = () => {
               <FiCheckSquare className='m-2' />
               DoDate
             </h1>
-            <button
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-              onClick={() => signOut()}
-            >
-              Sign Out
-            </button>
+            <ul>
+              <button
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded'
+                onClick={() => signOut()}
+              >
+                Sign Out
+              </button>
+              <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded'>
+                Add Credit Card
+              </button>
+            </ul>
           </div>
           <div className='container mx-auto flex flex-col items-center justify-top mt-16 h-screen p-4'>
             {doDates.map((doDate) => (
