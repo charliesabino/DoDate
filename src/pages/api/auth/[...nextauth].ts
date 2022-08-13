@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
     },
     async signIn({ user }) {
       setTimeout(async () => {
-        if (!user.stripeId) {
+        if (typeof user.stripeId !== 'string') {
           const cutomer = await stripe.customers.create({ email: user?.email })
           await prisma.user.update({
             where: { email: user?.email },
