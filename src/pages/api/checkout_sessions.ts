@@ -1,16 +1,30 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { unstable_getServerSession } from 'next-auth/next'
+import { authOptions } from './auth/[...nextauth]'
+import { prisma } from '../../server/db/client'
+import { trpc } from '../../utils/trpc'
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const userSession = await unstable_getServerSession(req, res, authOptions)
+
+  const customer = await prisma.user.findUnique({
+    where: { id: userSession?.user?.id },
+    select: { stripeId: true },
+  })
   if (req.method === 'POST') {
     try {
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [
-        ],
+        customer: customer?.stripeId,
         mode: 'setup',
-        success_url: `${req.headers.origin}/?success=true`,
-        cancel_url: `${req.headers.origin}/?canceled=true`,
+        success_url:
+          'http://localhost:3000/?success=true id={CHECKOUT_SESSION_ID}',
+        cancel_url: 'http://localhost:3000/?success=false',
       })
       res.redirect(303, session.url)
     } catch (err) {

@@ -4,6 +4,8 @@ import GoogleProvider from 'next-auth/providers/google'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '../../../server/db/client'
 
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
@@ -12,6 +14,20 @@ export const authOptions: NextAuthOptions = {
         session.user.id = user.id
       }
       return session
+    },
+    async signIn({ user }) {
+      setTimeout(async () => {
+        if (!user.stripeId) {
+          const cutomer = await stripe.customers.create({ email: user?.email })
+          await prisma.user.update({
+            where: { email: user?.email },
+            data: {
+              stripeId: cutomer.id,
+            },
+          })
+        }
+      }, 1000)
+      return true;
     },
   },
   // Configure one or more authentication providers

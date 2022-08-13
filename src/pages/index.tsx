@@ -13,6 +13,7 @@ import Payment from '../components/Payment'
 const Home: NextPage = () => {
   const [doDates, setDoDates] = useState<DoDate[]>([])
   const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
+
   const { data: session } = useSession()
   const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
 
@@ -38,7 +39,6 @@ const Home: NextPage = () => {
       </div>
     )
   }
-
   if (session) {
     return (
       <>
