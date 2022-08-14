@@ -1,8 +1,8 @@
 import { trpc } from '../utils/trpc'
 import { useState, useRef } from 'react'
 import { DatePicker } from '@mantine/dates'
-import { TextInput, Modal } from '@mantine/core'
-import { FiCalendar } from 'react-icons/fi'
+import { TextInput, NumberInput, Modal } from '@mantine/core'
+import { FiCalendar, FiDollarSign } from 'react-icons/fi'
 import dayjs from 'dayjs'
 import { useSession } from 'next-auth/react'
 
@@ -17,19 +17,21 @@ const CreateDoDateForm: React.FC = () => {
   const [text, setText] = useState('')
   const [opened, setOpened] = useState(false)
   const [dueDate, setDueDate] = useState(new Date())
+  const [stakes, setStakes] = useState(0)
 
   const { data: session } = useSession()
   const userId = session?.user?.id as string
 
   const ref = useRef<HTMLInputElement>(null)
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value)
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
 
-    mutation.mutate({ text, dueDate, userId })
+    mutation.mutate({ text, dueDate, userId, stakes})
     setText('')
+    setStakes(0)
     setOpened(false)
   }
 
@@ -44,9 +46,17 @@ const CreateDoDateForm: React.FC = () => {
           <TextInput
             label='Assignment name'
             value={text}
-            onChange={onChange}
+            onChange={onTextChange}
             required
             className='w-3/5'
+          />
+          <NumberInput
+            label='Stakes'
+            hideControls
+            className='w-3/5'
+            icon={<FiDollarSign />}
+            onChange={(val) => setStakes(val as number)}
+            required
           />
           <DatePicker
             inputFormat='MM/DD/YYYY'

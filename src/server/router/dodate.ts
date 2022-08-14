@@ -6,7 +6,7 @@ export const doDateRouter = createRouter()
   .query('get-doDates', {
     async resolve({ ctx }) {
       return prisma.doDate.findMany({
-        where: { userId: ctx.session?.user?.id},
+        where: { userId: ctx.session?.user?.id },
       })
     },
   })
@@ -29,14 +29,16 @@ export const doDateRouter = createRouter()
       text: z.string(),
       dueDate: z.date(),
       userId: z.string(),
+      stakes: z.number(),
     }),
     async resolve({ input }) {
-      const { text, dueDate, userId } = input
+      const { text, dueDate, userId, stakes } = input
       await prisma.doDate.create({
         data: {
           text,
           dueDate,
           userId,
+          stakes,
         },
       })
     },

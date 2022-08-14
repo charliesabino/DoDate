@@ -3,7 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from './auth/[...nextauth]'
 import { prisma } from '../../server/db/client'
-import { trpc } from '../../utils/trpc'
 
 export default async function handler(
   req: NextApiRequest,
