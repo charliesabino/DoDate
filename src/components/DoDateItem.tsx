@@ -34,7 +34,25 @@ const DoDateItem: React.FC<{
         )}
       </ul>
       <ul>
-        <span className='px-4'>{doDate.dueDate.toLocaleDateString()}</span>
+        <span>${doDate.stakes}</span>
+        {doDate.overdue ? (
+          <>
+            $
+            <span className='text-red-400 px-4'>
+              {doDate.dueDate.toLocaleDateString()}
+            </span>{' '}
+            <span className='px-4 text-red-400'>{doDate.dueDate.toLocaleTimeString()}</span>
+            <span className='px-4 text-red-400'>Overdue</span>
+          </>
+        ) : (
+          <>
+            <span className='text-red-400 px-4'>
+              {doDate.dueDate.toLocaleDateString()}
+            </span>{' '}
+            <span className='text-red-400 px-4'>{doDate.dueDate.toLocaleTimeString()}</span>
+          </>
+        )}
+
         <button
           onClick={onDelete}
           className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded'

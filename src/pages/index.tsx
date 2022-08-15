@@ -54,7 +54,7 @@ const Home: NextPage = () => {
               <FiCheckSquare className='m-2' />
               DoDate
             </h1>
-            <ul>
+            <ul className='flex'>
               <Payment />
               <button
                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded'
