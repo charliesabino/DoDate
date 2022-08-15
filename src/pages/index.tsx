@@ -8,7 +8,7 @@ import DoDateItem from '../components/DoDateItem'
 import CreateDoDateForm from '../components/CreateDoDateForm'
 import { FiCheckSquare } from 'react-icons/fi'
 import { TailSpin } from 'react-loader-spinner'
-import Payment from '../components/Payment'
+import Settings from '../components/Settings'
 
 const Home: NextPage = () => {
   const [doDates, setDoDates] = useState<DoDate[]>([])
@@ -55,13 +55,7 @@ const Home: NextPage = () => {
               DoDate
             </h1>
             <ul className='flex'>
-              <Payment />
-              <button
-                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded'
-                onClick={() => signOut()}
-              >
-                Sign Out
-              </button>
+              <Settings />
             </ul>
           </div>
           <div className='container mx-auto flex flex-col items-center justify-top mt-16 h-screen p-4'>

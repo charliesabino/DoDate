@@ -6,7 +6,6 @@ import { prisma } from '../../../server/db/client'
 const chargeCard = async (req: NextApiRequest, res: NextApiResponse) => {
   const id = req.query
 
-  const { data: session } = useSession()
   const userId = session?.user?.id
 
   const doDate = await prisma.doDate.findUnique({

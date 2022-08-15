@@ -12,6 +12,8 @@ const DoDateItem: React.FC<{
     completeMutation.mutate({ ...doDate })
   }
 
+  const currentDate = new Date()
+
   return (
     <div
       key={doDate.id}
@@ -41,15 +43,15 @@ const DoDateItem: React.FC<{
             <span className='text-red-400 px-4'>
               {doDate.dueDate.toLocaleDateString()}
             </span>{' '}
-            <span className='px-4 text-red-400'>{doDate.dueDate.toLocaleTimeString()}</span>
+            <span className='px-4 text-red-400'>
+              {doDate.dueDate.toLocaleTimeString()}
+            </span>
             <span className='px-4 text-red-400'>Overdue</span>
           </>
         ) : (
           <>
-            <span className='text-red-400 px-4'>
-              {doDate.dueDate.toLocaleDateString()}
-            </span>{' '}
-            <span className='text-red-400 px-4'>{doDate.dueDate.toLocaleTimeString()}</span>
+            <span className='px-4'>{doDate.dueDate.toLocaleDateString()}</span>{' '}
+            <span className='px-4'>{doDate.dueDate.toLocaleTimeString()}</span>
           </>
         )}
 
