@@ -64,8 +64,8 @@ const CreateDoDateForm: React.FC = () => {
             hideControls
             className='w-3/5'
             icon={<FiDollarSign />}
-            onChange={(date) => {
-              handleDateTimeChange(date, date)
+            onChange={(val) => {
+              setStakes(val as number)
             }}
             required
           />
@@ -90,7 +90,9 @@ const CreateDoDateForm: React.FC = () => {
           <TimeInput
             defaultValue={new Date()}
             value={dueDate}
-            onChange={setDueDate}
+            onChange={(date: Date) => {
+              handleDateTimeChange(dueDate, date)
+            }}
             label='Time'
             format='12'
             amLabel='am'

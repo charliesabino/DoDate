@@ -1,5 +1,25 @@
 import { trpc } from '../utils/trpc'
 import { DoDate } from '@prisma/client'
+import { prisma } from '../server/db/client'
+import { getSession } from 'next-auth/react'
+import { useState, useEffect } from 'react'
+
+// const chargeCard = async (doDate: DoDate) => {
+//   const userSession = await getSession()
+
+//   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+//   const customer = await prisma.user.findUnique({
+//     where: { id: userSession?.user?.id },
+//     select: { stripeId: true },
+//   })
+//   const paymentIntent = await stripe.paymentIntents.create({
+//     amount: doDate.stakes * 100,
+//     currency: 'usd',
+//     payment_method_types: ['card'],
+//     customer: customer?.stripeId,
+//   })
+//   return paymentIntent
+// }
 
 const DoDateItem: React.FC<{
   doDate: DoDate
@@ -11,9 +31,22 @@ const DoDateItem: React.FC<{
     doDate.done = !doDate.done
     completeMutation.mutate({ ...doDate })
   }
-
-  const currentDate = new Date()
-
+  const [currentDate, setCurrentDate] = useState(new Date())
+  const [overDue, setOverDue] = useState(false)
+  useEffect(() => {
+    setInterval(() => {
+      setCurrentDate(new Date())
+    }, 1000)
+  }, [])
+  let active = true
+  if (doDate.dueDate < currentDate) {
+    active = false
+  }
+  useEffect(() => {
+    if (!active) {
+      setOverDue(true)
+    }
+  }, [doDate, active])
   return (
     <div
       key={doDate.id}
@@ -37,9 +70,8 @@ const DoDateItem: React.FC<{
       </ul>
       <ul>
         <span>${doDate.stakes}</span>
-        {doDate.overdue ? (
+        {overDue ? (
           <>
-            $
             <span className='text-red-400 px-4'>
               {doDate.dueDate.toLocaleDateString()}
             </span>{' '}
