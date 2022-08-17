@@ -10,6 +10,15 @@ export const doDateRouter = createRouter()
       })
     },
   })
+  .query('get-status', {
+    input: z.object({ id: z.string() }),
+    async resolve({ input }) {
+      return prisma.doDate.findMany({
+        where: { id: input.id },
+        select: { overdue: true },
+      })
+    },
+  })
   .mutation('update-doDate', {
     input: z.object({ id: z.string(), done: z.boolean() }),
     async resolve({ input }) {
@@ -20,6 +29,20 @@ export const doDateRouter = createRouter()
         },
         data: {
           done,
+        },
+      })
+    },
+  })
+  .mutation('set-overdue', {
+    input: z.object({ id: z.string(), overdue: z.boolean() }),
+    async resolve({ input }) {
+      const { id, overdue } = input
+      return await prisma.doDate.update({
+        where: {
+          id,
+        },
+        data: {
+          overdue,
         },
       })
     },

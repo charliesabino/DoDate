@@ -1,18 +1,17 @@
 import { trpc } from '../utils/trpc'
 import { DoDate } from '@prisma/client'
-import { prisma } from '../server/db/client'
-import { getSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { loadStripe } from '@stripe/stripe-js'
 
 const DoDateItem: React.FC<{
   doDate: DoDate
   onDelete: () => void
 }> = ({ doDate, onDelete }) => {
   const completeMutation = trpc.useMutation(['dodate.update-doDate'])
+  const overdueQuery = trpc.useQuery(['dodate.get-status', { id: doDate.id }])
+  const overdueMutation = trpc.useMutation(['dodate.set-overdue'])
 
-  const processPayment = async (doDateId: string) => {
+  const processPayment = async () => {
     const { data } = await axios.get(`/api/charge-card/${doDate.id}`)
     console.log(data)
   }
@@ -20,23 +19,19 @@ const DoDateItem: React.FC<{
     doDate.done = !doDate.done
     completeMutation.mutate({ ...doDate })
   }
+
   const [currentDate, setCurrentDate] = useState(new Date())
-  const [overDue, setOverDue] = useState(false)
   useEffect(() => {
     setInterval(() => {
       setCurrentDate(new Date())
     }, 1000)
   }, [])
-  let active = true
-  if (doDate.dueDate < currentDate && active === true) {
-    active = false
+  if (doDate.dueDate < currentDate && !doDate.overdue) {
+    doDate.overdue = true
+    overdueMutation.mutate({ ...doDate })
+    processPayment()
+    console.log('test')
   }
-  useEffect(() => {
-    if (!active) {
-      setOverDue(true)
-      console.log('test')
-    }
-  }, [doDate, active])
   return (
     <div
       key={doDate.id}
@@ -60,7 +55,7 @@ const DoDateItem: React.FC<{
       </ul>
       <ul>
         <span>${doDate.stakes}</span>
-        {overDue ? (
+        {doDate.overdue ? (
           <>
             <span className='text-red-400 px-4'>
               {doDate.dueDate.toLocaleDateString()}
