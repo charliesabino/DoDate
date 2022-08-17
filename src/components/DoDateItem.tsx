@@ -3,23 +3,8 @@ import { DoDate } from '@prisma/client'
 import { prisma } from '../server/db/client'
 import { getSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
-
-// const chargeCard = async (doDate: DoDate) => {
-//   const userSession = await getSession()
-
-//   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-//   const customer = await prisma.user.findUnique({
-//     where: { id: userSession?.user?.id },
-//     select: { stripeId: true },
-//   })
-//   const paymentIntent = await stripe.paymentIntents.create({
-//     amount: doDate.stakes * 100,
-//     currency: 'usd',
-//     payment_method_types: ['card'],
-//     customer: customer?.stripeId,
-//   })
-//   return paymentIntent
-// }
+import axios from 'axios'
+import { loadStripe } from '@stripe/stripe-js'
 
 const DoDateItem: React.FC<{
   doDate: DoDate
@@ -27,6 +12,10 @@ const DoDateItem: React.FC<{
 }> = ({ doDate, onDelete }) => {
   const completeMutation = trpc.useMutation(['dodate.update-doDate'])
 
+  const processPayment = async (doDateId: string) => {
+    const { data } = await axios.get(`/api/charge-card/${doDate.id}`)
+    console.log(data)
+  }
   const onChange = () => {
     doDate.done = !doDate.done
     completeMutation.mutate({ ...doDate })
@@ -39,12 +28,13 @@ const DoDateItem: React.FC<{
     }, 1000)
   }, [])
   let active = true
-  if (doDate.dueDate < currentDate) {
+  if (doDate.dueDate < currentDate && active === true) {
     active = false
   }
   useEffect(() => {
     if (!active) {
       setOverDue(true)
+      console.log('test')
     }
   }, [doDate, active])
   return (
@@ -93,6 +83,7 @@ const DoDateItem: React.FC<{
         >
           X
         </button>
+        <button onClick={processPayment}>charge</button>
       </ul>
     </div>
   )

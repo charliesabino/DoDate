@@ -19,9 +19,9 @@ export const customerRouter = createRouter()
   })
   .query('get-customer', {
     async resolve({ ctx }) {
-      return await prisma.user.findMany({
+      return await prisma.user.findUnique({
         where: { id: ctx.session?.user?.id },
-        select: { stripeId: true },
+        select: { stripeId: true, email: true },
       })
     },
   })
