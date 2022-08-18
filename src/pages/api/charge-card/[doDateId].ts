@@ -11,7 +11,7 @@ export default async function handler(
   try {
     const { doDateId } = req.query
     const doDate = await prisma.doDate.findUnique({
-      where: { id: doDateId.toString() },
+      where: { id: doDateId?.toString() },
       select: { stakes: true },
     })
 
@@ -29,8 +29,10 @@ export default async function handler(
       }
     )
 
+    const stakes = doDate?.stakes as number
+
     const charge = await stripe.paymentIntents.create({
-      amount: doDate.stakes * 100,
+      amount: stakes * 100,
       currency: 'usd',
       payment_method_types: ['card'],
       customer: user?.stripeId,
