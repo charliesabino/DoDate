@@ -27,7 +27,7 @@ export default async function handler(
       })
       res.redirect(303, session.url)
     } catch (err) {
-      res.status(err.statusCode || 500).json(err.message)
+      res.status(err as number).json(err)
     }
   } else {
     res.setHeader('Allow', 'POST')
