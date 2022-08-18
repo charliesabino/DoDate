@@ -30,7 +30,6 @@ const DoDateItem: React.FC<{
     doDate.overdue = true
     overdueMutation.mutate({ ...doDate })
     processPayment()
-    console.log('test')
   }
   return (
     <div
