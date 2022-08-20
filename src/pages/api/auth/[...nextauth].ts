@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
           })
         }
       }, 1000)
-      return true;
+      return true
     },
   },
   // Configure one or more authentication providers
@@ -39,6 +39,9 @@ export const authOptions: NextAuthOptions = {
     }),
     // ...add more providers here
   ],
+  pages: {
+    signIn: '/login',
+  },
 }
 
 export default NextAuth(authOptions)

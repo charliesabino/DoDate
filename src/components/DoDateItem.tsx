@@ -26,6 +26,7 @@ const DoDateItem: React.FC<{
       setCurrentDate(new Date())
     }, 1000)
   }, [])
+
   if (doDate.dueDate < currentDate && !doDate.overdue) {
     doDate.overdue = true
     overdueMutation.mutate({ ...doDate })
@@ -66,8 +67,15 @@ const DoDateItem: React.FC<{
           </>
         ) : (
           <>
-            <span className='px-4'>{doDate.dueDate.toLocaleDateString()}</span>{' '}
-            <span className='px-4'>{doDate.dueDate.toLocaleTimeString()}</span>
+            <span className='px-4'>
+              {doDate.dueDate.toLocaleTimeString([], {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </span>
           </>
         )}
 
@@ -77,7 +85,6 @@ const DoDateItem: React.FC<{
         >
           X
         </button>
-        <button onClick={processPayment}>charge</button>
       </ul>
     </div>
   )

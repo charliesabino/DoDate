@@ -2,7 +2,7 @@ import { trpc } from '../utils/trpc'
 import { useState, useRef } from 'react'
 import { DatePicker, TimeInput } from '@mantine/dates'
 import { TextInput, NumberInput, Modal } from '@mantine/core'
-import { FiCalendar, FiDollarSign, FiClock } from 'react-icons/fi'
+import { FiCalendar, FiDollarSign, FiClock, FiPlus } from 'react-icons/fi'
 import dayjs from 'dayjs'
 import { useSession } from 'next-auth/react'
 
@@ -112,9 +112,9 @@ const CreateDoDateForm: React.FC = () => {
       </Modal>
       <button
         onClick={() => setOpened(true)}
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-6'
+        className='flex items-center justify-between bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2'
       >
-        Add DoDate
+        <FiPlus className='text-2xl' /> Add DoDate
       </button>
     </>
   )
