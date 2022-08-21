@@ -1,13 +1,5 @@
-import Image from 'next/future/image'
-
 import { Button } from './Button'
 import { Container } from './Container'
-import logoLaravel from '../images/logos/laravel.svg'
-import logoMirage from '../images/logos/mirage.svg'
-import logoStatamic from '../images/logos/statamic.svg'
-import logoStaticKit from '../images/logos/statickit.svg'
-import logoTransistor from '../images/logos/transistor.svg'
-import logoTuple from '../images/logos/tuple.svg'
 
 export function Hero() {
   return (
@@ -28,7 +20,7 @@ export function Hero() {
         with real deadlines.
       </h1>
       <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
-        DoDates allows you to self-impose deadlines with real financial penalties upon failure to satisfy them.
+        DoDates allows you to self-impose deadlines on tasks and collects user-defined financial penalties upon failure to meet them.
       </p>
       <div className="mt-10 flex justify-center gap-x-6">
         <Button href="/login">Get started</Button>

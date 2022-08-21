@@ -95,11 +95,8 @@ const Home: NextPage = () => {
       <main>
         <Hero />
         <PrimaryFeatures />
-        <SecondaryFeatures />
-        <CallToAction />
-        <Testimonials />
-        <Pricing />
         <Faqs />
+        <CallToAction />
       </main>
       <Footer />
     </>
