@@ -1,69 +1,85 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
+import { signIn, getCsrfToken, getProviders } from 'next-auth/react'
 import { AuthLayout } from '../components/AuthLayout'
 import { Button } from '../components/Button'
 import { TextField } from '../components/Fields'
 import { Logo } from '../components/Logo'
+import { FcGoogle } from 'react-icons/fc'
 
-export default function Login() {
+export default function Login({ csrfToken, providers }) {
   return (
     <>
       <Head>
-        <title>Sign In - TaxPal</title>
+        <title>Sign In - DoDates</title>
       </Head>
       <AuthLayout>
-        <div className="flex flex-col">
-          <Link href="/" aria-label="Home">
-            <Logo className="h-10 w-auto" />
+        <div className='flex flex-col'>
+          <Link href='/' aria-label='Home'>
+            <Logo className='h-10 w-auto' />
           </Link>
-          <div className="mt-20">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Sign in to your account
-            </h2>
-            <p className="mt-2 text-sm text-gray-700">
-              Don’t have an account?{' '}
-              <Link
-                href="/register"
-                className="font-medium text-blue-600 hover:underline"
-              >
-                Sign up
-              </Link>{' '}
-              for a free trial.
-            </p>
+          <div className='mt-20'>
+            <h2 className='text-lg font-semibold text-gray-900'>Sign In</h2>
           </div>
         </div>
-        <form action="#" className="mt-10 grid grid-cols-1 gap-y-8">
-          <TextField
-            label="Email address"
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-          />
-          <TextField
-            label="Password"
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-          />
-          <div>
+        <div className='mt-10 grid grid-cols-1 gap-y-8'>
+          <form
+            action='/api/auth/signin/email'
+            method='post'
+            className='grid grid-cols-1 gap-y-8'
+          >
+            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+            <TextField
+              label='Email address'
+              id='email'
+              name='email'
+              type='email'
+              autoComplete='email'
+              required
+            />
             <Button
-              type="submit"
-              variant="solid"
-              color="blue"
-              className="w-full"
+              type='submit'
+              variant='solid'
+              color='blue'
+              className='w-full'
             >
               <span>
-                Sign in <span aria-hidden="true">&rarr;</span>
+                Sign in / Sign up{' '}
+                <span aria-hidden='true'>&rarr;</span>
               </span>
             </Button>
-          </div>
-        </form>
+          </form>
+          <span className='text-center'>or</span>
+          {providers && (
+            <div style={{ marginBottom: 0 }}>
+              <Button
+                variant='solid'
+                className={'w-full'}
+                onClick={() =>
+                  signIn(providers.google.id, {
+                    callbackUrl: 'http://localhost:3000/',
+                  })
+                }
+              >
+                <FcGoogle className='pr-2 text-2xl' /> Continue with{' '}
+                {providers.google.name}
+              </Button>
+            </div>
+          )}
+        </div>
       </AuthLayout>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const providers = await getProviders()
+  const csrfToken = await getCsrfToken(context)
+  return {
+    props: {
+      providers,
+      csrfToken,
+    },
+  }
 }

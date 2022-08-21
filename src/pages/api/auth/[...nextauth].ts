@@ -1,5 +1,7 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
+import Auth0Provider from "next-auth/providers/auth0";
+import EmailProvider from "next-auth/providers/email";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '../../../server/db/client'
@@ -37,6 +39,15 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
+    EmailProvider({
+    server: process.env.EMAIL_SERVER,
+    from: process.env.EMAIL_FROM
+  }),
+    // Auth0Provider({
+    //   clientId: process.env.AUTH0_CLIENT_ID!,
+    //   clientSecret: process.env.AUTH0_CLIENT_SECRET!,
+    //   issuer: process.env.AUTH0_ISSUER,
+    // }),
     // ...add more providers here
   ],
   pages: {
