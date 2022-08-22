@@ -1,11 +1,24 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { HiOutlineBell, HiMenu, HiX } from 'react-icons/hi'
-import { FiSettings } from 'react-icons/fi'
+import { FiSettings, FiPlus, FiMenu, FiMoreHorizontal } from 'react-icons/fi'
 import { getSession } from 'next-auth/react'
 import { trpc } from '../utils/trpc'
 import Image from 'next/future/image'
 import { LogoLight } from './Logo'
+import { useRef, useState, useEffect } from 'react'
+import CreateDoDateForm from './CreateDoDateForm'
+import { DoDate } from '@prisma/client'
+
+const people = [
+  {
+    name: 'Lindsay Walton',
+    title: 'Front-end Developer',
+    email: 'lindsay.walton@example.com',
+    role: 'Member',
+  },
+  // More people...
+]
 
 const navigation = [
   // { name: 'Dashboard', href: '#', current: true },
@@ -24,9 +37,24 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
-  const { data, isLoading } = trpc.useQuery(['auth.getSession'])
-  const user = data?.user
+export default function App() {
+  const session = trpc.useQuery(['auth.getSession'])
+  const checkbox = useRef()
+  const [checked, setChecked] = useState(false)
+  const [selectedDoDates, setSelectedDoDates] = useState([])
+  const user = session.data?.user
+
+  const [doDates, setDoDates] = useState<DoDate[]>([])
+  const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
+
+  const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
+
+  useEffect(() => {
+    if (data) {
+      setDoDates(data)
+    }
+  }, [data])
+
   return (
     <>
       {/*
@@ -34,9 +62,7 @@ export default function Example() {
 
         ```
         <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
+        <body class="h-full"> ``` */}
       <div className='min-h-full'>
         <Disclosure as='nav' className='bg-gray-800'>
           {({ open }) => (
@@ -82,16 +108,16 @@ export default function Example() {
                         <div>
                           <Menu.Button className='max-w-xs text-gray-400 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
                             <span className='sr-only'>Open user menu</span>
-                            {data ? (
-                              <img
+                            {typeof user?.image === 'string' ? (
+                              <Image
                                 className='h-8 w-8 rounded-full'
                                 src={user?.image!}
-                                width={48}
-                                height={48}
-                                alt=''
+                                width={50}
+                                height={50}
+                                alt='User Avatar'
                               />
                             ) : (
-                              <h1></h1>
+                              <FiMenu className='h-6 w-6' />
                             )}{' '}
                           </Menu.Button>
                         </div>
@@ -161,10 +187,12 @@ export default function Example() {
                 <div className='pt-4 pb-3 border-t border-gray-700'>
                   <div className='flex items-center px-5'>
                     <div className='flex-shrink-0'>
-                      <img
+                      <Image
                         className='h-10 w-10 rounded-full'
-                        src={user?.image}
+                        src={user?.image!}
                         alt=''
+                        width={50}
+                        height={50}
                       />
                     </div>
                     <div className='ml-3'>
@@ -213,7 +241,128 @@ export default function Example() {
           <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
             {/* Replace with your content */}
             <div className='px-4 py-4 sm:px-0'>
-              <div className='border-4 border-dashed border-gray-200 rounded-lg h-96' />
+              <div className='px-4 sm:px-6 lg:px-8'>
+                <div className='sm:flex sm:items-center'>
+                  <div className='sm:flex-auto'>
+                    <h1 className='text-xl font-semibold text-gray-900'>
+                      Inbox
+                    </h1>
+                  </div>
+                  <div className='mt-4 sm:mt-0 sm:ml-16 sm:flex-none'>
+                    <CreateDoDateForm />
+                  </div>
+                </div>
+                <div className='mt-8 flex flex-col'>
+                  <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
+                    <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
+                      <div className='relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg'>
+                        <table className='min-w-full table-fixed divide-y divide-gray-300'>
+                          <thead className='bg-gray-50'>
+                            <tr>
+                              <th
+                                scope='col'
+                                className='relative w-12 px-6 sm:w-16 sm:px-8'
+                              ></th>
+                              <th
+                                scope='col'
+                                className='min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900'
+                              >
+                                Title
+                              </th>
+                              <th
+                                scope='col'
+                                className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
+                              >
+                                Due Date
+                              </th>
+                              <th
+                                scope='col'
+                                className='px-3 py-3.5 text-left text-sm font-semibold text-gray-900'
+                              >
+                                Late Penalty
+                              </th>
+                              <th
+                                scope='col'
+                                className='relative py-3.5 pl-3 pr-4 sm:pr-6'
+                              >
+                                <span className='sr-only'>
+                                  <FiMoreHorizontal />
+                                </span>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className='divide-y divide-gray-200 bg-white'>
+                            {doDates.map((doDate) => (
+                              <tr
+                                key={doDate.text}
+                                className={
+                                  selectedDoDates.includes(doDate)
+                                    ? 'bg-gray-50'
+                                    : undefined
+                                }
+                              >
+                                <td className='relative w-12 px-6 sm:w-16 sm:px-8'>
+                                  {selectedDoDates.includes(doDate) && (
+                                    <div className='absolute inset-y-0 left-0 w-0.5 bg-blue-600' />
+                                  )}
+                                  <input
+                                    type='checkbox'
+                                    className='absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 sm:left-6'
+                                    value={doDate.text}
+                                    checked={selectedDoDates.includes(doDate)}
+                                    onChange={(e) =>
+                                      setSelectedDoDates(
+                                        e.target.checked
+                                          ? [...selectedDoDates, doDate]
+                                          : selectedDoDates.filter(
+                                              (p) => p !== doDate
+                                            )
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td
+                                  className={classNames(
+                                    'whitespace-nowrap py-4 pr-3 text-sm font-medium',
+                                    selectedDoDates.includes(doDates)
+                                      ? 'text-blue-600'
+                                      : 'text-gray-900'
+                                  )}
+                                >
+                                  {doDate.text}
+                                </td>
+                                <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+                                  {doDate.dueDate.toLocaleTimeString([], {
+                                    year: 'numeric',
+                                    month: 'numeric',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })}
+                                </td>
+                                <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+                                  ${doDate.stakes}
+                                </td>
+                                <td className='whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
+                                  <a
+                                    href='#'
+                                    className='text-blue-600 hover:text-blue-900 text-2xl'
+                                  >
+                                    <FiMoreHorizontal />
+                                    <span className='sr-only'>
+                                      , {doDate.text}
+                                    </span>
+                                  </a>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             {/* /End replace */}
           </div>

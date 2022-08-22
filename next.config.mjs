@@ -18,8 +18,10 @@ export default defineNextConfig({
     newNextLinkBehavior: true,
     scrollRestoration: true,
     images: {
-      domains: ['lh3.googleusercontent.com'],
       allowFutureImage: true,
     },
+  },
+  images: {
+    domains: ['lh3.googleusercontent.com'],
   },
 })
