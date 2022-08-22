@@ -10,16 +10,6 @@ import { useRef, useState, useEffect } from 'react'
 import CreateDoDateForm from './CreateDoDateForm'
 import { DoDate } from '@prisma/client'
 
-const people = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-  // More people...
-]
-
 const navigation = [
   // { name: 'Dashboard', href: '#', current: true },
   // { name: 'Team', href: '#', current: false },
@@ -31,6 +21,12 @@ const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '#' },
+]
+
+const doDateNavigation = [
+  { name: 'Edit DoDate', href: '#' },
+  { name: 'Delete DoDate', href: '#' },
+  // { name: 'Sign out', href: '#' },
 ]
 
 function classNames(...classes) {
@@ -344,15 +340,43 @@ export default function App() {
                                   ${doDate.stakes}
                                 </td>
                                 <td className='whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6'>
-                                  <a
-                                    href='#'
-                                    className='text-blue-600 hover:text-blue-900 text-2xl'
-                                  >
-                                    <FiMoreHorizontal />
-                                    <span className='sr-only'>
-                                      , {doDate.text}
-                                    </span>
-                                  </a>
+                                  <Menu as='div' className='ml-3 relative '>
+                                    <div>
+                                      <Menu.Button className='max-w-xs text-gray-400 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
+                                        <span className='sr-only'>
+                                          Open user menu
+                                        </span>
+                                          <FiMoreHorizontal className='h-6 w-6' />
+                                      </Menu.Button>
+                                    </div>
+                                    <Transition
+                                      as={Fragment}
+                                      enter='transition ease-out duration-100'
+                                      enterFrom='transform opacity-0 scale-95'
+                                      enterTo='transform opacity-100 scale-100'
+                                      leave='transition ease-in duration-75'
+                                      leaveFrom='transform opacity-100 scale-100'
+                                      leaveTo='transform opacity-0 scale-95'
+                                    >
+                                      <Menu.Items className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50'>
+                                        {doDateNavigation.map((item) => (
+                                          <Menu.Item key={item.name}>
+                                            {({ active }) => (
+                                              <a
+                                                href={item.href}
+                                                className={classNames(
+                                                  active ? 'bg-gray-100' : '',
+                                                  'block px-4 py-2 text-sm text-gray-700'
+                                                )}
+                                              >
+                                                {item.name}
+                                              </a>
+                                            )}
+                                          </Menu.Item>
+                                        ))}
+                                      </Menu.Items>
+                                    </Transition>
+                                  </Menu>
                                 </td>
                               </tr>
                             ))}
