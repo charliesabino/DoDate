@@ -19,7 +19,7 @@ export default function verifyRequest() {
       <h1 className='relative text-center text-3xl'>
         An email has been sent with a link to log in.
       </h1>
-      <Logo className='relative py-9 '/>
+      <Logo className='relative py-9'/>
     </div>
   )
 }

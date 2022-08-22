@@ -18,6 +18,7 @@ import { Pricing } from '../components/Pricing'
 import { PrimaryFeatures } from '../components/PrimaryFeatures'
 import { SecondaryFeatures } from '../components/SecondaryFeatures'
 import { Testimonials } from '../components/Testimonials'
+import App from '../components/App'
 
 const Home: NextPage = () => {
   const [doDates, setDoDates] = useState<DoDate[]>([])
@@ -46,6 +47,13 @@ const Home: NextPage = () => {
           visible={true}
         />{' '}
       </div>
+    )
+  }
+    if (session) {
+    return (
+      <>
+        <App/>
+      </>
     )
   }
   if (session) {
