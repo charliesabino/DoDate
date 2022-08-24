@@ -16,6 +16,7 @@ import { Header } from '../components/Header'
 import { Hero } from '../components/Hero'
 import { PrimaryFeatures } from '../components/PrimaryFeatures'
 import App from '../components/App'
+import { OverlayProvider } from 'react-aria'
 
 const Home: NextPage = () => {
   const [doDates, setDoDates] = useState<DoDate[]>([])
@@ -48,10 +49,9 @@ const Home: NextPage = () => {
   }
   if (session) {
     return (
-      <>
-
+      <OverlayProvider>
         <App />
-      </>
+      </OverlayProvider>
     )
   }
   if (session) {

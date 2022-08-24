@@ -1,13 +1,14 @@
 import { trpc } from '../utils/trpc'
 import { useState, useRef, Fragment } from 'react'
 import { TimeInput } from '@mantine/dates'
-import { TextInput, NumberInput, Modal } from '@mantine/core'
+import { TextInput, NumberInput } from '@mantine/core'
 import { FiCalendar, FiDollarSign, FiClock, FiPlus } from 'react-icons/fi'
 import dayjs from 'dayjs'
 import { useSession } from 'next-auth/react'
 import { DatePicker } from './DatePicker'
 import { today, getLocalTimeZone } from '@internationalized/date'
 import { Dialog, Transition } from '@headlessui/react'
+import { OverlayProvider } from 'react-aria'
 
 const CreateDoDateForm: React.FC = () => {
   const utils = trpc.useContext()
@@ -97,11 +98,11 @@ const CreateDoDateForm: React.FC = () => {
                     }}
                     required
                   />
-                  <DatePicker
-                    label='Due Date'
-                    minValue={today(getLocalTimeZone())}
-                    className='w-3/5'
-                  />
+                    <DatePicker
+                      label='Due Date'
+                      minValue={today(getLocalTimeZone())}
+                      className='w-3/5'
+                    />
                   <TimeInput
                     defaultValue={new Date()}
                     value={dueDate}
