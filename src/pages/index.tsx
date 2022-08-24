@@ -14,10 +14,7 @@ import { Faqs } from '../components/Faqs'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { Hero } from '../components/Hero'
-import { Pricing } from '../components/Pricing'
 import { PrimaryFeatures } from '../components/PrimaryFeatures'
-import { SecondaryFeatures } from '../components/SecondaryFeatures'
-import { Testimonials } from '../components/Testimonials'
 import App from '../components/App'
 
 const Home: NextPage = () => {
@@ -39,7 +36,7 @@ const Home: NextPage = () => {
         <TailSpin
           height='80'
           width='80'
-          color='black'
+          color='blue'
           ariaLabel='tail-spin-loading'
           radius='1'
           wrapperStyle={{}}
@@ -49,10 +46,11 @@ const Home: NextPage = () => {
       </div>
     )
   }
-    if (session) {
+  if (session) {
     return (
       <>
-        <App/>
+
+        <App />
       </>
     )
   }

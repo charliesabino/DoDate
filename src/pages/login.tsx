@@ -5,7 +5,7 @@ import { signIn, getCsrfToken, getProviders } from 'next-auth/react'
 import { AuthLayout } from '../components/AuthLayout'
 import { Button } from '../components/Button'
 import { TextField } from '../components/Fields'
-import { Logo } from '../components/Logo'
+import { LogoDark } from '../components/Logo'
 import { FcGoogle } from 'react-icons/fc'
 
 export default function Login({ csrfToken, providers }) {
@@ -17,7 +17,7 @@ export default function Login({ csrfToken, providers }) {
       <AuthLayout>
         <div className='flex flex-col'>
           <Link href='/' aria-label='Home'>
-            <Logo className='h-10 w-auto' />
+            <LogoDark className='h-10 w-auto' />
           </Link>
           <div className='mt-20'>
             <h2 className='text-lg font-semibold text-gray-900'>Sign In</h2>

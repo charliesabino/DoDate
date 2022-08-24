@@ -1,8 +1,6 @@
 import Image from 'next/future/image'
 
-import { Button } from '../components/Button'
-import { Container } from '../components/Container'
-import { Logo } from '../components/Logo'
+import { LogoDark } from '../components/Logo'
 import backgroundImage from '../images/background-faqs.jpg'
 
 export default function verifyRequest() {
@@ -19,7 +17,7 @@ export default function verifyRequest() {
       <h1 className='relative text-center text-3xl'>
         An email has been sent with a link to log in.
       </h1>
-      <Logo className='relative py-9'/>
+      <LogoDark className='relative py-9' />
     </div>
   )
 }

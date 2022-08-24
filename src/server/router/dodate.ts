@@ -6,7 +6,7 @@ export const doDateRouter = createRouter()
   .query('get-doDates', {
     async resolve({ ctx }) {
       return prisma.doDate.findMany({
-        where: { userId: ctx.session?.user?.id },
+        where: { userId: ctx.session?.user?.id, done: false },
       })
     },
   })

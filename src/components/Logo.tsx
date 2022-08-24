@@ -15,7 +15,7 @@ export function LogoDark(props) {
 export function LogoLight(props) {
   return (
     <div {...props}>
-      <h1 className='text-2xl font-semibold text-gray-300 flex items-center text-center'>
+      <h1 className='text-2xl font-semibold text-gray-50 flex items-center text-center'>
         {' '}
         <RiCalendarCheckLine className='text-blue-600 text-4xl' />
         Do<span className='text-blue-600'>Dates</span>
