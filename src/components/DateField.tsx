@@ -35,7 +35,7 @@ function DateSegment({ segment, state }) {
       style={{
         ...segmentProps.style,
       }}
-      className={`box-content text-right outline-none rounded-sm focus:bg-blue-600 focus:text-white group ${
+      className={`px-0.5 box-content text-right outline-none rounded-sm focus:bg-blue-600 focus:text-white group ${
         !segment.isEditable ? 'text-gray-500' : 'text-gray-800'
       }`}
     >

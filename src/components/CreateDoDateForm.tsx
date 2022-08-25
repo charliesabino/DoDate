@@ -4,20 +4,27 @@ import { TextInput } from '@mantine/core'
 import { FiPlus } from 'react-icons/fi'
 import { useSession } from 'next-auth/react'
 import { DatePicker } from './DatePicker'
-import { today, getLocalTimeZone } from '@internationalized/date'
+import {
+  today,
+  getLocalTimeZone,
+  now,
+  parseZonedDateTime,
+  parseAbsoluteToLocal,
+} from '@internationalized/date'
 import { Dialog, Transition } from '@headlessui/react'
 
 const CreateDoDateForm: React.FC = () => {
   const utils = trpc.useContext()
-
   const mutation = trpc.useMutation(['dodate.create-doDate'], {
     onSuccess() {
       utils.invalidateQueries(['dodate.get-doDates'])
     },
   })
+  const timeZone = getLocalTimeZone()
+
   const [text, setText] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [dueDate, setDueDate] = useState<Date>(new Date())
+  const [dueDate, setDueDate] = useState(now(getLocalTimeZone()).toDate())
   const [stakes, setStakes] = useState(0)
 
   const { data: session } = useSession()
@@ -27,18 +34,8 @@ const CreateDoDateForm: React.FC = () => {
   const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value)
 
-  const handleDateTimeChange = (newVal: Date, preserve: Date) => {
-    if (!newVal || !preserve) {
-      return
-    }
-    newVal.setHours(preserve.getHours())
-    newVal.setMinutes(preserve.getMinutes())
-    setDueDate(newVal)
-  }
-
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
-
     mutation.mutate({ text, dueDate, userId, stakes })
     setText('')
     setStakes(0)
@@ -79,9 +76,7 @@ const CreateDoDateForm: React.FC = () => {
                     Create a DoDate
                   </Dialog.Title>{' '}
                   <div className='w-3/5'>
-                    <label
-                      className='block text-sm font-medium text-gray-700'
-                    >
+                    <label className='block text-sm font-medium text-gray-700'>
                       Name
                     </label>
                     <div className='mt-1'>
@@ -91,10 +86,12 @@ const CreateDoDateForm: React.FC = () => {
                         id='name'
                         className='shadow-sm focus:ring-blue-500  focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md'
                         required
+                        value={text}
+                        onChange={onTextChange}
                       />
                     </div>
                   </div>{' '}
-                  <div >
+                  <div>
                     <label
                       htmlFor='price'
                       className='block text-sm font-medium text-gray-700'
@@ -113,6 +110,8 @@ const CreateDoDateForm: React.FC = () => {
                         placeholder='0.00'
                         aria-describedby='price-currency'
                         required
+                        value={stakes}
+                        onChange={(e) => setStakes(parseFloat(e.target.value))}
                       />
                       <div className='absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none'>
                         <span
@@ -128,6 +127,10 @@ const CreateDoDateForm: React.FC = () => {
                     label='Due Date'
                     minValue={today(getLocalTimeZone())}
                     granularity='minute'
+                    value={parseAbsoluteToLocal(dueDate.toISOString())}
+                    onChange={(value) => {
+                      setDueDate(value.toDate())
+                    }}
                   />
                   <div className='flex justify-center space-x-2'>
                     <button
