@@ -6,7 +6,6 @@ import superjson from 'superjson'
 import { SessionProvider } from 'next-auth/react'
 import '../styles/globals.css'
 import 'focus-visible'
-import { OverlayProvider } from 'react-aria'
 
 const MyApp: AppType = ({
   Component,

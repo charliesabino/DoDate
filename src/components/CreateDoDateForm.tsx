@@ -1,14 +1,11 @@
 import { trpc } from '../utils/trpc'
 import { useState, useRef, Fragment } from 'react'
-import { TimeInput } from '@mantine/dates'
-import { TextInput, NumberInput } from '@mantine/core'
-import { FiCalendar, FiDollarSign, FiClock, FiPlus } from 'react-icons/fi'
-import dayjs from 'dayjs'
+import { TextInput } from '@mantine/core'
+import { FiPlus } from 'react-icons/fi'
 import { useSession } from 'next-auth/react'
 import { DatePicker } from './DatePicker'
 import { today, getLocalTimeZone } from '@internationalized/date'
 import { Dialog, Transition } from '@headlessui/react'
-import { OverlayProvider } from 'react-aria'
 
 const CreateDoDateForm: React.FC = () => {
   const utils = trpc.useContext()
@@ -81,42 +78,56 @@ const CreateDoDateForm: React.FC = () => {
                   >
                     Create a DoDate
                   </Dialog.Title>{' '}
-                  <TextInput
-                    label='Assignment name'
-                    value={text}
-                    onChange={onTextChange}
-                    required
-                    className='w-3/5'
-                  />
-                  <NumberInput
-                    label='Stakes'
-                    hideControls
-                    className='w-3/5'
-                    icon={<FiDollarSign />}
-                    onChange={(val) => {
-                      setStakes(val as number)
-                    }}
-                    required
-                  />
-                    <DatePicker
-                      label='Due Date'
-                      minValue={today(getLocalTimeZone())}
-                      className='w-3/5'
-                    />
-                  <TimeInput
-                    defaultValue={new Date()}
-                    value={dueDate}
-                    onChange={(date: Date) => {
-                      handleDateTimeChange(dueDate, date)
-                    }}
-                    label='Time'
-                    format='12'
-                    amLabel='am'
-                    pmLabel='pm'
-                    required
-                    clearable
-                    icon={<FiClock />}
-                    className='w-3/5'
+                  <div className='w-3/5'>
+                    <label
+                      className='block text-sm font-medium text-gray-700'
+                    >
+                      Name
+                    </label>
+                    <div className='mt-1'>
+                      <input
+                        type='text'
+                        name='name'
+                        id='name'
+                        className='shadow-sm focus:ring-blue-500  focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md'
+                        required
+                      />
+                    </div>
+                  </div>{' '}
+                  <div >
+                    <label
+                      htmlFor='price'
+                      className='block text-sm font-medium text-gray-700'
+                    >
+                      Late Penalty
+                    </label>
+                    <div className='mt-1 relative rounded-md shadow-sm'>
+                      <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                        <span className='text-gray-500 sm:text-sm'>$</span>
+                      </div>
+                      <input
+                        type='number'
+                        name='price'
+                        id='price'
+                        className='focus:ring-blue-500 focus:border-blue-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md'
+                        placeholder='0.00'
+                        aria-describedby='price-currency'
+                        required
+                      />
+                      <div className='absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none'>
+                        <span
+                          className='text-gray-500 sm:text-sm'
+                          id='price-currency'
+                        >
+                          USD
+                        </span>
+                      </div>
+                    </div>
+                  </div>{' '}
+                  <DatePicker
+                    label='Due Date'
+                    minValue={today(getLocalTimeZone())}
+                    granularity='minute'
                   />
                   <div className='flex justify-center space-x-2'>
                     <button
