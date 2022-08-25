@@ -19,7 +19,13 @@ const DoDateComp: React.FC<{
   doDate: DoDate
   onDelete: () => void
 }> = ({ doDate, onDelete }) => {
-  const completeMutation = trpc.useMutation(['dodate.update-doDate'])
+  const utils = trpc.useContext()
+
+  const completeMutation = trpc.useMutation(['dodate.update-doDate'], {
+    onSuccess() {
+      utils.invalidateQueries(['dodate.get-doDates'])
+    },
+  })
   const overdueMutation = trpc.useMutation(['dodate.set-overdue'])
 
   const processPayment = async () => {
@@ -28,7 +34,9 @@ const DoDateComp: React.FC<{
   }
   const onChange = () => {
     doDate.done = !doDate.done
-    completeMutation.mutate({ ...doDate })
+    setTimeout(() => {
+      completeMutation.mutate({ ...doDate })
+    }, 1000)
   }
 
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -56,13 +64,16 @@ const DoDateComp: React.FC<{
         {doDate.text}
       </td>
       <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-        {doDate.dueDate.toLocaleTimeString([], {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-        })}
+        <span className={`${doDate.overdue && 'text-red-500'}`}>
+          {doDate.dueDate.toLocaleTimeString([], {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </span>
+        {doDate.overdue && <span className='text-red-500'>—Overdue</span>}
       </td>
       <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
         ${doDate.stakes}

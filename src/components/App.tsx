@@ -23,6 +23,7 @@ function classNames(...classes) {
 }
 
 export default function App() {
+  const utils = trpc.useContext()
   const session = trpc.useQuery(['auth.getSession'])
 
   const user = session.data?.user
@@ -31,6 +32,12 @@ export default function App() {
   const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
 
   const { data } = trpc.useQuery(['dodate.get-doDates'])
+
+  const completeMutation = trpc.useMutation(['dodate.update-doDate'], {
+    onSuccess() {
+      utils.invalidateQueries(['dodate.get-doDates'])
+    },
+  })
 
   useEffect(() => {
     if (data) {
