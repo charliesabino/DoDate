@@ -11,6 +11,7 @@ import Head from 'next/head'
 import CreateDoDateForm from './CreateDoDateForm'
 import { DoDate } from '@prisma/client'
 import { signOut } from 'next-auth/react'
+import axios from 'axios'
 
 const userNavigation = [
   { name: 'Your Profile', onClick: '' },
@@ -26,18 +27,22 @@ export default function App() {
   const utils = trpc.useContext()
   const session = trpc.useQuery(['auth.getSession'])
 
+  let isPayment = false
+  const fetchPayment = async () => {
+    const { data: payment } = await axios.get(`/api/fetch-payment`)
+    console.log(payment)
+    if (payment?.data?.length > 0) {
+      isPayment = true
+    }
+    return payment
+  }
+
   const user = session.data?.user
 
   const [doDates, setDoDates] = useState<DoDate[]>([])
   const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
 
   const { data } = trpc.useQuery(['dodate.get-doDates'])
-
-  const completeMutation = trpc.useMutation(['dodate.update-doDate'], {
-    onSuccess() {
-      utils.invalidateQueries(['dodate.get-doDates'])
-    },
-  })
 
   useEffect(() => {
     if (data) {
@@ -271,6 +276,11 @@ export default function App() {
                 </div>
               </div>
             </div>
+            {!isPayment && (
+              <span>
+                To get started, <button>add a payment metbod</button>
+              </span>
+            )}
             {/* /End replace */}
           </div>
         </main>

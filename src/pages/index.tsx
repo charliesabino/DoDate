@@ -37,7 +37,7 @@ const Home: NextPage = () => {
         <TailSpin
           height='80'
           width='80'
-          color='blue'
+          color='#3b82f6'
           ariaLabel='tail-spin-loading'
           radius='1'
           wrapperStyle={{}}
