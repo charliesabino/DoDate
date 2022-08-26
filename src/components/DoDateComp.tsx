@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { DoDate } from '@prisma/client'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { FiMoreHorizontal } from 'react-icons/fi'
+import { FiMoreHorizontal, FiEdit, FiTrash2 } from 'react-icons/fi'
 import { Menu, Transition } from '@headlessui/react'
 
 const doDateNavigation = [
@@ -79,7 +79,7 @@ const DoDateComp: React.FC<{
         ${doDate.stakes}
       </td>
       <td className='whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-6'>
-        <Menu as='div' className='ml-3 relative '>
+        {/*<Menu as='div' className='relative inline-block text-left'>
           <div>
             <Menu.Button className='max-w-xs text-gray-400 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
               <span className='sr-only'>Open DoDate Menu</span>
@@ -95,15 +95,15 @@ const DoDateComp: React.FC<{
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           >
-            <Menu.Items className='origin-top-right absolute z-50 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
+            <Menu.Items className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
               {doDateNavigation.map((item) => (
                 <Menu.Item key={item.name}>
                   {({ active }) => (
                     <a
                       href={item.href}
                       className={classNames(
-                        active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700'
+                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        'block px-4 py-2 text-sm'
                       )}
                     >
                       {item.name}
@@ -114,6 +114,15 @@ const DoDateComp: React.FC<{
             </Menu.Items>
           </Transition>
         </Menu>
+        */}
+        <div className='max-w-xs text-gray-500 rounded-full flex items-center justift-between text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
+          <button onClick={onDelete}>
+            <FiTrash2 className='h-5 w-5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white' />
+          </button>
+          {/*<button>
+            <FiEdit className='h-6 w-6' />
+          </button>*/}
+        </div>
       </td>
     </tr>
   )
