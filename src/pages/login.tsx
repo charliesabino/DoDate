@@ -20,7 +20,7 @@ export default function Login({ csrfToken, providers }) {
             <LogoDark className='h-10 w-auto' />
           </Link>
           <div className='mt-20'>
-            <h2 className='text-lg font-semibold text-gray-900'>Sign In</h2>
+            <h2 className='text-lg font-semibold text-gray-900'>Sign In / Sign Up</h2>
           </div>
         </div>
         <div className='mt-10 grid grid-cols-1 gap-y-8'>
