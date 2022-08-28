@@ -64,7 +64,7 @@ const CreateDoDateForm: React.FC = () => {
           </Transition.Child>
           <div className='fixed inset-0 overflow-y-auto'>
             <div className='flex min-h-full items-center justify-center p-4 text-center'>
-              <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+              <Dialog.Panel className='w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                 <form
                   className='mx-auto space-y-3 flex flex-col items-center'
                   onSubmit={onSubmit}

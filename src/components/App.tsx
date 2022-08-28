@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useCallback } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { HiOutlineBell, HiMenu, HiX } from 'react-icons/hi'
 import { FiMenu, FiMoreHorizontal } from 'react-icons/fi'
@@ -27,15 +27,19 @@ export default function App() {
   const utils = trpc.useContext()
   const session = trpc.useQuery(['auth.getSession'])
 
-  let isPayment = false
-  const fetchPayment = async () => {
-    const { data: payment } = await axios.get(`/api/fetch-payment`)
-    console.log(payment)
-    if (payment?.data?.length > 0) {
-      isPayment = true
-    }
-    return payment
-  }
+  const [isPayment, setIsPayment] = useState(false)
+  // const fetchPayment = async () => {
+  //   const { data: payment } = await axios.get(`/api/fetch-payment`)
+  //   console.log(payment.paymentMethod.data.length)
+  //   if (payment.paymentMethod.data.length > 0) {
+  //     setIsPayment(true)
+  //   }
+  //   return payment
+  // }
+  // const paymentStatus = fetchPayment()
+  // if (paymentStatus.paymentMethod.data.length > 0) {
+  //   setIsPayment(true)
+  // }
 
   const user = session.data?.user
 
