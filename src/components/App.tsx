@@ -12,8 +12,7 @@ import CreateDoDateForm from './CreateDoDateForm'
 import { DoDate } from '@prisma/client'
 import { signOut } from 'next-auth/react'
 import axios from 'axios'
-import { useQuery } from 'react-query'
-import { TailSpin } from 'react-loader-spinner'
+import { useQuery, UseQueryResult } from 'react-query'
 
 const userNavigation = [
   // { name: 'Your Profile', onClick: '' },
@@ -30,9 +29,9 @@ export default function App() {
 
   const session = trpc.useQuery(['auth.getSession'])
 
-  const paymentQuery = useQuery('payments', async () => {
+  const paymentQuery: UseQueryResult<number, unknown> = useQuery('payments', async () => {
     const { data: payment } = await axios.get(`/api/fetch-payment`)
-    return payment.paymentMethod.data.length
+    return payment.paymentMethod.data.length as number
   })
 
   const user = session.data?.user
@@ -40,30 +39,13 @@ export default function App() {
   const [doDates, setDoDates] = useState<DoDate[]>([])
   const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
 
-  const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
+  const { data } = trpc.useQuery(['dodate.get-doDates'])
 
   useEffect(() => {
     if (data) {
       setDoDates(data)
     }
   }, [data])
-
-  if (isLoading) {
-    return (
-      <div className='flex justify-center items-center h-screen w-screen'>
-        <TailSpin
-          height='80'
-          width='80'
-          color='#3b82f6'
-          ariaLabel='tail-spin-loading'
-          radius='1'
-          wrapperStyle={{}}
-          wrapperClass=''
-          visible={true}
-        />{' '}
-      </div>
-    )
-  }
 
   return (
     <>
