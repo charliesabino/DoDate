@@ -12,6 +12,7 @@ import CreateDoDateForm from './CreateDoDateForm'
 import { DoDate } from '@prisma/client'
 import { signOut } from 'next-auth/react'
 import axios from 'axios'
+import { useQuery } from 'react-query'
 
 const userNavigation = [
   { name: 'Your Profile', onClick: '' },
@@ -26,20 +27,10 @@ function classNames(...classes) {
 export default function App() {
   const utils = trpc.useContext()
   const session = trpc.useQuery(['auth.getSession'])
-
-  const [isPayment, setIsPayment] = useState(false)
-  // const fetchPayment = async () => {
-  //   const { data: payment } = await axios.get(`/api/fetch-payment`)
-  //   console.log(payment.paymentMethod.data.length)
-  //   if (payment.paymentMethod.data.length > 0) {
-  //     setIsPayment(true)
-  //   }
-  //   return payment
-  // }
-  // const paymentStatus = fetchPayment()
-  // if (paymentStatus.paymentMethod.data.length > 0) {
-  //   setIsPayment(true)
-  // }
+  const { isLoading, data: paymentQuery } = useQuery('payments', async () => {
+    const { data: payment } = await axios.get(`/api/fetch-payment`)
+    return payment.paymentMethod.data.length
+  })
 
   const user = session.data?.user
 
@@ -280,11 +271,16 @@ export default function App() {
                 </div>
               </div>
             </div>
-            {!isPayment && (
-              <span>
-                To get started, <button>add a payment metbod</button>
-              </span>
-            )}
+            <div className='text-center w-full mt-4 text-lg'>
+              {paymentQuery < 1 && (
+                <span>
+                  To get started,{' '}
+                  <button className='border-b-blue-500 text-blue-500 border-b'>
+                    add a payment method
+                  </button>
+                </span>
+              )}
+            </div>
             {/* /End replace */}
           </div>
         </main>
