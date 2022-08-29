@@ -15,8 +15,8 @@ import axios from 'axios'
 import { useQuery } from 'react-query'
 
 const userNavigation = [
-  { name: 'Your Profile', onClick: '' },
-  { name: 'Settings', onClick: '' },
+  // { name: 'Your Profile', onClick: '' },
+  // { name: 'Settings', onClick: '' },
   { name: 'Sign out', onClick: signOut },
 ]
 
@@ -73,13 +73,14 @@ export default function App() {
                   </div>
                   <div className='hidden md:block'>
                     <div className='ml-4 flex items-center md:ml-6'>
+                      {/*
                       <button
                         type='button'
                         className='bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'
                       >
                         <span className='sr-only'>View notifications</span>
                         <HiOutlineBell className='h-6 w-6' aria-hidden='true' />
-                      </button>
+                      </button> */}
 
                       {/* Profile dropdown */}
                       <Menu as='div' className='ml-3 relative'>
@@ -164,6 +165,7 @@ export default function App() {
                         {user?.email}
                       </div>
                     </div>
+                    {/*
                     <button
                       type='button'
                       className='ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'
@@ -171,6 +173,7 @@ export default function App() {
                       <span className='sr-only'>View notifications</span>
                       <HiOutlineBell className='h-6 w-6' aria-hidden='true' />
                     </button>
+*/}
                   </div>
                   <div className='mt-3 px-2 space-y-1'>
                     {userNavigation.map((item) => (
