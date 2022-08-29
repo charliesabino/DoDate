@@ -20,7 +20,7 @@ const userNavigation = [
   { name: 'Sign out', onClick: signOut },
 ]
 
-function classNames(...classes) {
+function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 

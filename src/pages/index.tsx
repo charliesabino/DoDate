@@ -1,8 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { trpc } from '../utils/trpc'
-import { DoDate } from '@prisma/client'
-import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { CallToAction } from '../components/CallToAction'
 import { Faqs } from '../components/Faqs'
