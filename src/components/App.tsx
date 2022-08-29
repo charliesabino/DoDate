@@ -13,6 +13,7 @@ import { DoDate } from '@prisma/client'
 import { signOut } from 'next-auth/react'
 import axios from 'axios'
 import { useQuery } from 'react-query'
+import { TailSpin } from 'react-loader-spinner'
 
 const userNavigation = [
   // { name: 'Your Profile', onClick: '' },
@@ -26,8 +27,10 @@ function classNames(...classes) {
 
 export default function App() {
   const utils = trpc.useContext()
+
   const session = trpc.useQuery(['auth.getSession'])
-  const { isLoading, data: paymentQuery } = useQuery('payments', async () => {
+
+  const paymentQuery = useQuery('payments', async () => {
     const { data: payment } = await axios.get(`/api/fetch-payment`)
     return payment.paymentMethod.data.length
   })
@@ -37,13 +40,30 @@ export default function App() {
   const [doDates, setDoDates] = useState<DoDate[]>([])
   const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
 
-  const { data } = trpc.useQuery(['dodate.get-doDates'])
+  const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
 
   useEffect(() => {
     if (data) {
       setDoDates(data)
     }
   }, [data])
+
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center h-screen w-screen'>
+        <TailSpin
+          height='80'
+          width='80'
+          color='#3b82f6'
+          ariaLabel='tail-spin-loading'
+          radius='1'
+          wrapperStyle={{}}
+          wrapperClass=''
+          visible={true}
+        />{' '}
+      </div>
+    )
+  }
 
   return (
     <>

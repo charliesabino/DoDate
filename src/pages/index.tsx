@@ -3,12 +3,7 @@ import Head from 'next/head'
 import { trpc } from '../utils/trpc'
 import { DoDate } from '@prisma/client'
 import { useEffect, useState } from 'react'
-import { signOut, signIn, useSession } from 'next-auth/react'
-import DoDateItem from '../components/DoDateItem'
-import CreateDoDateForm from '../components/CreateDoDateForm'
-import { FiCheckSquare } from 'react-icons/fi'
-import { TailSpin } from 'react-loader-spinner'
-import Settings from '../components/Settings'
+import { useSession } from 'next-auth/react'
 import { CallToAction } from '../components/CallToAction'
 import { Faqs } from '../components/Faqs'
 import { Footer } from '../components/Footer'
@@ -19,34 +14,8 @@ import App from '../components/App'
 import { OverlayProvider } from 'react-aria'
 
 const Home: NextPage = () => {
-  const [doDates, setDoDates] = useState<DoDate[]>([])
-  const deleteMutation = trpc.useMutation(['dodate.delete-doDate'])
-
   const { data: session } = useSession()
-  const { data, isLoading } = trpc.useQuery(['dodate.get-doDates'])
 
-  useEffect(() => {
-    if (data) {
-      setDoDates(data)
-    }
-  }, [data])
-
-  if (isLoading) {
-    return (
-      <div className='flex justify-center items-center h-screen w-screen'>
-        <TailSpin
-          height='80'
-          width='80'
-          color='#3b82f6'
-          ariaLabel='tail-spin-loading'
-          radius='1'
-          wrapperStyle={{}}
-          wrapperClass=''
-          visible={true}
-        />{' '}
-      </div>
-    )
-  }
   if (session) {
     return (
       <OverlayProvider>
