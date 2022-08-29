@@ -16,13 +16,16 @@ export default function Payment() {
   return (
     <form action='/api/checkout_sessions' method='POST'>
       <section>
-        <button
-          type='submit'
-          role='link'
-          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-2 rounded'
-        >
-          Add Payment Method
-        </button>
+        <span>
+          To get started,{' '}
+          <button
+            type='submit'
+            role='link'
+            className='border-b-blue-500 text-blue-500 border-b'
+          >
+            add a payment method
+          </button>
+        </span>
       </section>
     </form>
   )

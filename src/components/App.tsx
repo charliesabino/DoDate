@@ -13,6 +13,7 @@ import { DoDate } from '@prisma/client'
 import { signOut } from 'next-auth/react'
 import axios from 'axios'
 import { useQuery, UseQueryResult } from 'react-query'
+import Payment from './Payment'
 
 const userNavigation = [
   // { name: 'Your Profile', onClick: '' },
@@ -274,14 +275,7 @@ export default function App() {
               </div>
             </div>
             <div className='text-center w-full mt-4 text-lg'>
-              {isSuccess && payment < 1 && (
-                <span>
-                  To get started,{' '}
-                  <button className='border-b-blue-500 text-blue-500 border-b'>
-                    add a payment method
-                  </button>
-                </span>
-              )}
+              {isSuccess && payment < 1 && <Payment />}
             </div>
             {/* /End replace */}
           </div>
