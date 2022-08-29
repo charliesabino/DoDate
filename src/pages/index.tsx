@@ -54,42 +54,6 @@ const Home: NextPage = () => {
       </OverlayProvider>
     )
   }
-  if (session) {
-    return (
-      <>
-        <Head>
-          <title>DoDate</title>
-          <meta name='description' content='Hold yourself accountable.' />
-          <link rel='icon' href='/favicon.ico' />
-        </Head>
-
-        <main className=''>
-          <div className='w-full h-20 absolute top-0 flex justify-around items-center'>
-            <h1 className='text-3xl font-bold flex items-center'>
-              <FiCheckSquare className='m-2' />
-              DoDate
-            </h1>
-            <ul className='flex'>
-              <Settings />
-            </ul>
-          </div>
-          <div className='container mx-auto flex flex-col items-center justify-top mt-16 h-screen p-4'>
-            {doDates.map((doDate) => (
-              <DoDateItem
-                key={doDate.id}
-                doDate={doDate}
-                onDelete={() => {
-                  deleteMutation.mutate({ ...doDate })
-                  setDoDates(doDates.filter((d) => d.id !== doDate.id))
-                }}
-              />
-            ))}
-            <CreateDoDateForm />
-          </div>
-        </main>
-      </>
-    )
-  }
   return (
     <>
       <Head>
