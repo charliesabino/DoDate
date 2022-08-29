@@ -27,13 +27,13 @@ function classNames(...classes: any) {
 export default function App() {
   const session = trpc.useQuery(['auth.getSession'])
 
-  const paymentQuery: UseQueryResult<number, unknown> = useQuery(
-    'payments',
-    async () => {
-      const { data: payment } = await axios.get(`/api/fetch-payment`)
-      return payment.paymentMethod.data.length as number
-    }
-  )
+  const { data: payment, isSuccess } = useQuery('payments', async () => {
+    const { data: payment } = await axios.get(`/api/fetch-payment`)
+    return payment.paymentMethod.data.length as number
+  })
+  if (isSuccess) {
+    payment
+  }
 
   const user = session.data?.user
 
@@ -84,8 +84,8 @@ export default function App() {
                         <span className='sr-only'>View notifications</span>
                         <HiOutlineBell className='h-6 w-6' aria-hidden='true' />
                       </button> */}
-
-                      {/* Profile dropdown */} <Menu as='div' className='ml-3 relative'>
+                      {/* Profile dropdown */}{' '}
+                      <Menu as='div' className='ml-3 relative'>
                         <div>
                           <Menu.Button className='max-w-xs text-gray-400 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
                             <span className='sr-only'>Open user menu</span>
@@ -112,22 +112,20 @@ export default function App() {
                           leaveTo='transform opacity-0 scale-95'
                         >
                           <Menu.Items className='origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                            {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
-                                {({ active }) => (
-                                  <div
-                                    className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'block px-4 py-2 text-sm text-gray-700'
-                                    )}
-                                  >
-                                    <button onClick={() => item.onClick}>
-                                      {item.name}
-                                    </button>
-                                  </div>
-                                )}
-                              </Menu.Item>
-                            ))}
+                            <Menu.Item key={'Sign out'}>
+                              {({ active }) => (
+                                <div
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'block px-4 py-2 text-sm text-gray-700'
+                                  )}
+                                >
+                                  <button onClick={() => signOut()}>
+                                    Sign out
+                                  </button>
+                                </div>
+                              )}
+                            </Menu.Item>
                           </Menu.Items>
                         </Transition>
                       </Menu>
@@ -178,14 +176,13 @@ export default function App() {
 */}
                   </div>
                   <div className='mt-3 px-2 space-y-1'>
-                    {userNavigation.map((item) => (
-                      <Disclosure.Button
-                        key={item.name}
-                        className='block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700'
-                      >
-                        {item.name}
-                      </Disclosure.Button>
-                    ))}
+                    <Disclosure.Button
+                      key={'Sign out'}
+                      className='block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700'
+                      onClick={() => signOut()}
+                    >
+                      Sign out
+                    </Disclosure.Button>
                   </div>
                 </div>
               </Disclosure.Panel>
@@ -277,7 +274,7 @@ export default function App() {
               </div>
             </div>
             <div className='text-center w-full mt-4 text-lg'>
-              {paymentQuery < 1 && (
+              {isSuccess && payment < 1 && (
                 <span>
                   To get started,{' '}
                   <button className='border-b-blue-500 text-blue-500 border-b'>
