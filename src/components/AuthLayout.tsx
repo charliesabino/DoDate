@@ -2,7 +2,7 @@ import Image from 'next/future/image'
 
 import backgroundImage from '../images/background-auth.jpg'
 
-export function AuthLayout({ children }) {
+export function AuthLayout({ children }: any) {
   return (
     <>
       <div className="relative flex min-h-full justify-center md:px-12 lg:px-0">
