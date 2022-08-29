@@ -1,6 +1,6 @@
-import { Fragment, useCallback } from 'react'
+import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { HiOutlineBell, HiMenu, HiX } from 'react-icons/hi'
+import { HiMenu, HiX } from 'react-icons/hi'
 import { FiMenu, FiMoreHorizontal } from 'react-icons/fi'
 import { trpc } from '../utils/trpc'
 import Image from 'next/future/image'
@@ -25,14 +25,15 @@ function classNames(...classes: any) {
 }
 
 export default function App() {
-  const utils = trpc.useContext()
-
   const session = trpc.useQuery(['auth.getSession'])
 
-  const paymentQuery: UseQueryResult<number, unknown> = useQuery('payments', async () => {
-    const { data: payment } = await axios.get(`/api/fetch-payment`)
-    return payment.paymentMethod.data.length as number
-  })
+  const paymentQuery: UseQueryResult<number, unknown> = useQuery(
+    'payments',
+    async () => {
+      const { data: payment } = await axios.get(`/api/fetch-payment`)
+      return payment.paymentMethod.data.length as number
+    }
+  )
 
   const user = session.data?.user
 
@@ -84,8 +85,7 @@ export default function App() {
                         <HiOutlineBell className='h-6 w-6' aria-hidden='true' />
                       </button> */}
 
-                      {/* Profile dropdown */}
-                      <Menu as='div' className='ml-3 relative'>
+                      {/* Profile dropdown */} <Menu as='div' className='ml-3 relative'>
                         <div>
                           <Menu.Button className='max-w-xs text-gray-400 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
                             <span className='sr-only'>Open user menu</span>
@@ -121,7 +121,7 @@ export default function App() {
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
-                                    <button onClick={item.onClick}>
+                                    <button onClick={() => item.onClick}>
                                       {item.name}
                                     </button>
                                   </div>
