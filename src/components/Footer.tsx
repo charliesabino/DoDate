@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { Container } from './Container'
 import { LogoDark } from './Logo'
-import { NavLink } from './NavLink'
+import { NavLink } from './Navlink'
 
 export function Footer() {
   return (
