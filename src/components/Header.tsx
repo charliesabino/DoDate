@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import { Button } from './Button'
 import { Container } from './Container'
 import { LogoDark } from './Logo'
-import { NavLink } from './NavLink'
+import { NavLink } from './Navlink'
 
 function MobileNavLink({ href, children }: any) {
   return (
