@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { AuthLayout } from './AuthLayout'
 import { Button } from './Button'
 import { TextField } from './Fields'
-import { Logo } from './Logo'
+import { LogoDark } from './Logo'
 
 export default function Login() {
   return (
@@ -15,7 +15,7 @@ export default function Login() {
       <AuthLayout>
         <div className="flex flex-col">
           <Link href="/" aria-label="Home">
-            <Logo className="h-10 w-auto" />
+            <LogoDark className="h-10 w-auto" />
           </Link>
           <div className="mt-20">
             <h2 className="text-lg font-semibold text-gray-900">
