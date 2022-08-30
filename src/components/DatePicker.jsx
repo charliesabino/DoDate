@@ -7,7 +7,7 @@ import { Calendar } from './Calendar'
 import { DateField } from './DateField'
 import { Popover } from './Popover'
 
-export function DatePicker(props: any) {
+export function DatePicker(props) {
   let state = useDatePickerState(props)
   let ref = useRef()
   let {

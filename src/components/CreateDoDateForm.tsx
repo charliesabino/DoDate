@@ -1,6 +1,5 @@
 import { trpc } from '../utils/trpc'
-import { useState, useRef, Fragment } from 'react'
-import { TextInput } from '@mantine/core'
+import { useState, Fragment } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { useSession } from 'next-auth/react'
 import { DatePicker } from './DatePicker'
@@ -8,8 +7,8 @@ import {
   today,
   getLocalTimeZone,
   now,
-  parseZonedDateTime,
   parseAbsoluteToLocal,
+  ZonedDateTime,
 } from '@internationalized/date'
 import { Dialog, Transition } from '@headlessui/react'
 
@@ -20,7 +19,6 @@ const CreateDoDateForm: React.FC = () => {
       utils.invalidateQueries(['dodate.get-doDates'])
     },
   })
-  const timeZone = getLocalTimeZone()
 
   const [text, setText] = useState('')
   const [isOpen, setIsOpen] = useState(false)
@@ -30,7 +28,6 @@ const CreateDoDateForm: React.FC = () => {
   const { data: session } = useSession()
   const userId = session?.user?.id as string
 
-  const ref = useRef<HTMLInputElement>(null)
   const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value)
 
@@ -128,7 +125,7 @@ const CreateDoDateForm: React.FC = () => {
                     minValue={today(getLocalTimeZone())}
                     granularity='minute'
                     value={parseAbsoluteToLocal(dueDate.toISOString())}
-                    onChange={(value) => {
+                    onChange={(value: ZonedDateTime) => {
                       setDueDate(value.toDate())
                     }}
                   />

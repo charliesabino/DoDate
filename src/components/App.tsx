@@ -12,14 +12,8 @@ import CreateDoDateForm from './CreateDoDateForm'
 import { DoDate } from '@prisma/client'
 import { signOut } from 'next-auth/react'
 import axios from 'axios'
-import { useQuery, UseQueryResult } from 'react-query'
+import { useQuery } from 'react-query'
 import Payment from './Payment'
-
-const userNavigation = [
-  // { name: 'Your Profile', onClick: '' },
-  // { name: 'Settings', onClick: '' },
-  { name: 'Sign out', onClick: signOut },
-]
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -32,6 +26,7 @@ export default function App() {
     const { data: payment } = await axios.get(`/api/fetch-payment`)
     return payment.paymentMethod.data.length as number
   })
+
   if (isSuccess) {
     payment
   }

@@ -1,10 +1,8 @@
 import { trpc } from '../utils/trpc'
-import { Fragment } from 'react'
 import { DoDate } from '@prisma/client'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { FiMoreHorizontal, FiEdit, FiTrash2 } from 'react-icons/fi'
-import { Menu, Transition } from '@headlessui/react'
+import { FiTrash2 } from 'react-icons/fi'
 
 const doDateNavigation = [
   { name: 'Edit DoDate', href: '#' },
