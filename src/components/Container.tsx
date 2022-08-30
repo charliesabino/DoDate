@@ -2,7 +2,8 @@ import clsx from 'clsx'
 
 export const Container: React.FC<{
   className: string
-}> = ({ className, ...props }) => {
+  children: Element
+}> = ({ className, children, ...props }) => {
   return (
     <div
       className={clsx('mx-auto max-w-7xl px-4 sm:px-6 lg:px-8', className)}
@@ -10,4 +11,3 @@ export const Container: React.FC<{
     />
   )
 }
-
