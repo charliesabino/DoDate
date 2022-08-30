@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-const Container: React.FC<{
+export const Container: React.FC<{
   className: string
 }> = ({ className, ...props }) => {
   return (
@@ -11,4 +11,3 @@ const Container: React.FC<{
   )
 }
 
-export default Container
