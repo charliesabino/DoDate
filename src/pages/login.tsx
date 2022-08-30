@@ -8,7 +8,7 @@ import { TextField } from '../components/Fields'
 import { LogoDark } from '../components/Logo'
 import { FcGoogle } from 'react-icons/fc'
 
-export default function Login({ csrfToken, providers }) {
+export default function Login({ csrfToken, providers }: any) {
   return (
     <>
       <Head>
@@ -76,7 +76,7 @@ export default function Login({ csrfToken, providers }) {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   const providers = await getProviders()
   const csrfToken = await getCsrfToken(context)
   return {
