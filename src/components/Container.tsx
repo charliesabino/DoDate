@@ -1,8 +1,9 @@
 import clsx from 'clsx'
+import { ReactElement } from 'react'
 
 export const Container: React.FC<{
   className: string
-  children: Element
+  children: ReactElement
 }> = ({ className, children, ...props }) => {
   return (
     <div
