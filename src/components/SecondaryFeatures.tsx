@@ -96,7 +96,7 @@ const features = [
   },
 ]
 
-function Feature({ feature, isActive, className, ...props }) {
+function Feature({ feature, isActive, className, ...props }: any) {
   return (
     <div
       className={clsx(className, !isActive && 'opacity-75 hover:opacity-100')}
