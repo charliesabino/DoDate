@@ -1,7 +1,6 @@
-import { ReactPropTypes } from 'react'
 import { RiCalendarCheckLine } from 'react-icons/ri'
 
-export function LogoDark(props?: ReactPropTypes) {
+export function LogoDark(props: any) {
   return (
     <div {...props}>
       <h1 className='text-2xl font-semibold text-gray-900 flex items-center text-center'>
@@ -13,7 +12,7 @@ export function LogoDark(props?: ReactPropTypes) {
   )
 }
 
-export function LogoLight(props?: ReactPropTypes) {
+export function LogoLight(props: any) {
   return (
     <div {...props}>
       <h1 className='text-2xl font-semibold text-gray-50 flex items-center text-center'>
