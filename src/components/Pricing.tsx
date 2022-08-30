@@ -59,7 +59,7 @@ function Plan({
   description: string
   href: string
   features: string[]
-  featured: boolean
+  featured?: boolean
 }) {
   return (
     <section
