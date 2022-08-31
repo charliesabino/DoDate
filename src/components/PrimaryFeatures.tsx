@@ -72,7 +72,7 @@ export function PrimaryFeatures() {
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-            Everything you need manage your todos and hold yourself accountable.
+            Everything you need to get more done.
           </h2>
         </div>
         <Tab.Group

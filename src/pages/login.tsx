@@ -16,7 +16,7 @@ export default function Login({ csrfToken, providers }: any) {
       </Head>
       <AuthLayout>
         <div className='flex flex-col'>
-          <Link href='/' aria-label='Home'>
+          <Link href='/login' aria-label='Home'>
             <LogoDark className='h-10 w-auto' />
           </Link>
           <div className='mt-20'>
@@ -45,7 +45,7 @@ export default function Login({ csrfToken, providers }: any) {
               variant='solid'
               color='blue'
               className='w-full'
-              href='/'
+              href='/login'
             >
               <span>
                 Sign in / Sign up <span aria-hidden='true'>&rarr;</span>
@@ -58,10 +58,10 @@ export default function Login({ csrfToken, providers }: any) {
               <Button
                 variant='solid'
                 className={'w-full'}
-                href=''
+                href='/'
                 onClick={() =>
                   signIn(providers.google.id, {
-                    callbackUrl: 'http://localhost:3000/',
+                    callbackUrl: 'https://www.dodates.app/',
                   })
                 }
               >
