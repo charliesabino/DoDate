@@ -25,7 +25,7 @@ const Home: NextPage = () => {
       <Head>
         <title>DoDate</title>
         <meta name='description' content='Hold yourself accountable.' />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href='' />
       </Head>
       <Header />
       <main>
