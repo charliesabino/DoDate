@@ -61,7 +61,7 @@ export default function Login({ csrfToken, providers }: any) {
                 href='/'
                 onClick={() =>
                   signIn(providers.google.id, {
-                    callbackUrl: 'https://www.dodates.app/',
+                    callbackUrl: '/',
                   })
                 }
               >
