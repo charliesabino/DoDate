@@ -29,6 +29,7 @@ export function Hero() {
         </Button>
         <Button
           href='https://youtu.be/-MCMKNECSQs'
+          target='_blank'
           variant='outline'
           className=''
         >
