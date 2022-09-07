@@ -73,9 +73,15 @@ const DoDateComp: React.FC<{
         </span>
         {doDate.overdue && <span className='text-red-500'>—Overdue</span>}
       </td>
-      <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
-        ${doDate.stakes}
-      </td>
+      {doDate.overdue ? (
+        <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+          You have been charged ${doDate.stakes}
+        </td>
+      ) : (
+        <td className='whitespace-nowrap px-3 py-4 text-sm text-gray-500'>
+          ${doDate.stakes}
+        </td>
+      )}
       <td className='whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-6'>
         {/*<Menu as='div' className='relative inline-block text-left'>
           <div>
